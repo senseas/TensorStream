@@ -4,12 +4,9 @@
 
 #include "../core/None.h"
 #include "../core/TensorConst.h"
-#include "ForEach.h"
-#include "Object.h"
-#include "Tenser.h"  
-
-#ifndef Objects_H
-#define Objects_H
+#include "../lang/ForEach.h"
+#include "../lang/Object.h"
+#include "../lang/Tenser.h"  
 
 using namespace std;
 namespace Objects {
@@ -106,5 +103,3 @@ namespace Objects {
 	return nones;
   }
 }  // namespace Objects
-
-#endif

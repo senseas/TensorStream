@@ -1,7 +1,6 @@
 #include <math.h>
 #include "../lang/Include.h"
 #include "../core/TensorConst.h"
-#include "../core/TensorFunction.h"
 #include "../operators/Operator.h"
 
 class SoftmaxCrossFunction : public TensorFunction {

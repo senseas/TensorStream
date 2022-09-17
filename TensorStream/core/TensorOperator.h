@@ -1,5 +1,5 @@
 #pragma once
-#include "TensorFlux.h"
+#include "../core/TensorFlux.h"
 
 class TensorOperator : public Tensor {
  public:

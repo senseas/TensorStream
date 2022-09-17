@@ -2,7 +2,6 @@
 #include <vector>
 #include "../lang/Include.h"
 
-using namespace ForEach;
 using namespace Objects;
 
 class MatmulOperator : public TensorOperator {

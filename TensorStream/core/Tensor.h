@@ -5,7 +5,7 @@
 
 #include "../lang/Object.h"
 #include "../lang/Tenser.h"
-#include "None.h"
+#include "../core/None.h"
 
 using namespace std;
 class Tensor;
