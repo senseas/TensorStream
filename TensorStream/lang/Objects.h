@@ -52,7 +52,7 @@ namespace Objects {
   }
 
   None* zeroNone(Tensor* tensor, bool isGrad) {
-    return new None(&tensor->value[0], &tensor->grad[0], &tensor->reduce[0], isGrad);
+    return new None(tensor->value, tensor->grad, tensor->reduce, isGrad);
   }
 
   Tenser<None*>* zeroNones(Tensor* tensor, bool isGrad) {
