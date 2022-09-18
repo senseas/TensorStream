@@ -1,36 +1,37 @@
-#include <assert.h>
+#pragma once
 
+#include <assert.h>
 #include <functional>
 #include <iostream>
 #include <numeric>
 #include <vector>
-
-#ifndef Tenser_h
-#define Tenser_h
 
 template <typename T>
 class Tenser {
 private:
   T* data;
   size_t next;
-
+  size_t sz;
 public:
   std::vector<int> shape;
 
-  ~Tenser() { delete[] this->data; };
+  ~Tenser() { delete[] this->data; }
 
   Tenser(std::vector<int> dim) : shape(dim) {
 	next = std::accumulate(dim.begin() + 1, dim.end(), 1L, std::multiplies<size_t>());
-	size_t sz = this->next * dim[0];
+	sz = this->next * dim[0];
 	data = new T[sz];
   }
 
   Tenser(T* data, std::vector<int> dim) : data(data), shape(dim) {
 	next = std::accumulate(dim.begin() + 1, dim.end(), 1L, std::multiplies<size_t>());
+	sz = this->next * dim[0];
   }
 
-  void setData(T* data) { this->data = data; };
-  T* getData() { return this->data; };
+  void setData(T* data) { this->data = data; }
+  T* getData() { return this->data; }
+
+  size_t size() { return sz; }
 
   template <typename M, class... N>
   M get(N... idxn) {
@@ -85,5 +86,3 @@ private:
 
   T getValue(int idx) { return data[idx]; }
 };
-
-#endif

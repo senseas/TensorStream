@@ -23,7 +23,7 @@ public:
 	[A, B, heighs, widths](int y, int x, int m, int n) {
 	  None* inx = A->get<None*>(y * heighs + m, x * widths + n);
 	  None* out = B->get<None*>(y, x);
-	  out->value = max(out->value, inx->value);
+	  out->setValue(max(out->getValue(), inx->getValue()));
 	});
 	return B;
   }
@@ -36,7 +36,7 @@ public:
 	[A, B, heighs, widths](int y, int x, int m, int n) {
 	  None* inx = A->get<None*>(y * heighs + m, x * widths + n);
 	  None* out = B->get<None*>(y, x);
-	  inx->setGrad(inx->value == out->value ? out->grad : 0);
+	  inx->setGrad(inx->getValue() == out->getValue() ? out->getGrad() : 0);
 	});
   }
 

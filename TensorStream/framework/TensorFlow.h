@@ -115,50 +115,47 @@ Tensor* squarex(Tensor* a, Tensor* b) {
 //   return new SigmoidCrossxFunction(a, b);
 // }
 
-// Tensor*conv(List<int> stride, int padding, Tensor* a, Tensor* b) {
+// Tensor* conv(List<int> stride, int padding, Tensor* a, Tensor* b) {
 //   return new ConvOperator(stride, padding, a, b);
 // }
 
-// Tensor*convx(List<int> stride, int padding, Tensor* a, Tensor* b) {
+// Tensor* convx(List<int> stride, int padding, Tensor* a, Tensor* b) {
 //   return new ConvxFunction(stride, padding, a, b);
 // }
 
-// Tensor*deconv(List<int> stride, int padding, Tensor* a, Tensor* b) {
+// Tensor* deconv(List<int> stride, int padding, Tensor* a, Tensor* b) {
 //   return new DeconvOperator(stride, padding, a, b);
 // }
 
-// Tensor*deconvx(List<int> stride, int padding, Tensor* a, Tensor* b) {
+// Tensor* deconvx(List<int> stride, int padding, Tensor* a, Tensor* b) {
 //   return new DeconvxFunction(stride, padding, a, b);
 // }
 
-// Tensor*maxpool(int kernelSize, List<int> stride, int padding, Tensor* a,
-// Tensor* b) {
+// Tensor* maxpool(int kernelSize, List<int> stride, int padding, Tensor* a, Tensor* b) {
 //   return new MaxpoolOperator(kernelSize, stride, padding, a, b);
 // }
 
-// Tensor*maxpoolx(int kernelSize, List<int> stride, int padding, Tensor* a,Tensor* b) {
+// Tensor* maxpoolx(int kernelSize, List<int> stride, int padding, Tensor* a,Tensor* b) {
 //   return new MaxpoolxFunction(kernelSize, stride, padding, a, b);
 // }
 
-// Tensor*demaxpool(int kernelSize, List<int> stride, int padding, Tensor* a,
-// Tensor* b) {
+// Tensor* demaxpool(int kernelSize, List<int> stride, int padding, Tensor* a, Tensor* b) {
 //   return new DemaxpoolOperator(kernelSize, stride, padding, a, b);
 // }
 
-// Tensor*demaxpoolx(int kernelSize, List<int> stride, int padding, Tensor* a,
-// Tensor* b) {
+// Tensor* demaxpoolx(int kernelSize, List<int> stride, int padding, Tensor* a, Tensor* b) {
 //   return new DemaxpoolxFunction(kernelSize, stride, padding, a, b);
 // }
 
-// Tensor*softmax(Tensor* a, Tensor* b) {
+// Tensor* softmax(Tensor* a, Tensor* b) {
 //   return new SoftmaNFunction(a, b);
 // }
 
-// Tensor*selfAttention(Tensor* a, Tensor* b) {
+// Tensor* selfAttention(Tensor* a, Tensor* b) {
 //   return new SelfAttentionFunction(a, b);
 // }
 
-// Tensor*batchNorm(Tensor* a, Tensor* b) {
+// Tensor* batchNorm(Tensor* a, Tensor* b) {
 //   return new BatchNormFunction(a, b);
 // }
 }  // namespace Flow

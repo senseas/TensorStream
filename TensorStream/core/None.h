@@ -1,41 +1,66 @@
 #pragma once
 
-#include <algorithm>
-#include <iostream>
-#include <random>
-
-std::default_random_engine random_engine;
-std::normal_distribution<double> normal(0.05, 0.01);
-
-double normalRandm() {
-  return normal(random_engine);
-}
-
 class None {
+private:
+  double* value = nullptr, * grad = nullptr;
+  bool* reduce = nullptr;
+
 public:
-  double value = 0, grad = 0;
-  bool gradre = true, reduce = false;
+  bool isGrad = true;
 
-  None() {
-	value = normalRandm();
-  }
-
-  None(double value) {
+  None(double* value, double* grad, bool* reduce, bool isGrad) {
 	this->value = value;
-	this->gradre = true;
+	this->grad = grad;
+	this->reduce = reduce;
+	this->isGrad = isGrad;
   }
 
   None(double value, bool isGrad) {
-	this->value = value;
-	this->gradre = isGrad;
+	this->value = new double[1] {value};
+	this->grad = new double[1] {0};
+	this->reduce = new bool[1] {false};
+	this->isGrad = isGrad;
+  }
+
+  None(double value) {
+	this->value = new double[1] {value};
+	this->grad = new double[1] {0};
+	this->reduce = new bool[1] {false};
+	this->isGrad = true;
+  }
+
+  ~None() {
+	delete[] value;
+	delete[] grad;
+	delete[] reduce;
+  }
+
+  double getValue() {
+	return *this->value;
+  }
+
+  void setValue(double value) {
+	*this->value = value;
+  }
+
+  double getGrad() {
+	return *this->grad;
   }
 
   void setGrad(double grad) {
-	this->grad += grad;
+	*this->grad += grad;
+  }
+
+  bool getReduce() {
+	return *this->reduce;
+  }
+
+  void setReduce(bool reduce) {
+	*this->reduce = reduce;
   }
 
   void reset() {
-	this->reduce = false;
-	this->grad = 0;
+	*this->reduce = false;
+	*this->grad = 0;
   }
 };

@@ -45,6 +45,21 @@ namespace ForEach {
 	}
   }
 
+  int shapeSize(vector<int> shape) {
+	int size = accumulate(shape.begin(), shape.end(), 1L, std::multiplies<size_t>());
+	return size;
+  }
+
+  template <typename M, typename Func>
+  void farEachi(Tenser<M>* a, Func func) {
+	int size = a->size();
+	M* data = a->getData();
+	for (int i = 0; i < size; i++) {
+	  M* n = &data[i];
+	  func(n, i);
+	}
+  }
+
   template <typename M, typename Func>
   void farEach(Tenser<M>* a, Func func) {
 	for (int i = 0; i < a->shape[0]; i++) {

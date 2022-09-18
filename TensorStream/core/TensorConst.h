@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../core/Tensor.h"
 
 class TensorConst : public Tensor {

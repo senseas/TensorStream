@@ -1,31 +1,69 @@
 #pragma once
 #include <iostream>
 #include <typeinfo>
-
+#include <algorithm>
+#include <iostream>
+#include <random>
+#include <vector>
 #include "../core/None.h"
 #include "../core/TensorConst.h"
 #include "../lang/ForEach.h"
 #include "../lang/Object.h"
-#include "../lang/Tenser.h"  
+#include "../lang/Tenser.h"
 
 using namespace std;
+
 namespace Objects {
 
-  Tenser<None*>* random(vector<int> shape) {
-	Tenser<None*>* a = new Tenser<None*>(shape);
-	ForEach::farEach(a, [](None** o) { *o = new None(); });
+  std::default_random_engine random_engine;
+  std::normal_distribution<double> normal(0.05, 0.01);
+
+  double normalRandm() {
+	return normal(random_engine);
+  }
+
+  int shapeSize(vector<int> shape) {
+	int size = accumulate(shape.begin(), shape.end(), 1L, std::multiplies<size_t>());
+	return size;
+  }
+
+  template <typename T>
+  T* random(vector<int> shape) {
+	int size = shapeSize(shape);
+	T* a = new T[size];
+	ForEach::forEach(size, [a](int i) { a[i] = normalRandm(); });
 	return a;
   }
 
-  Tenser<None*>* fill(vector<int> shape, double value, bool isGrad) {
-	Tenser<None*>* a = new Tenser<None*>(shape);
-	ForEach::farEach(a, [value, isGrad](None** o) { *o = new None(value, isGrad); });
+  template <typename T>
+  T* zeros(vector<int> shape) {
+	int size = shapeSize(shape);
+	T* a = new T[size];
+	ForEach::forEach(size, [a](int i) { a[i] = 0; });
+	return a;
+  }
+
+  template <typename T>
+  T* values(vector<int> shape, T value) {
+	int size = shapeSize(shape);
+	T* a = new T[size];
+	ForEach::forEach(size, [value, a](int i) { a[i] = value; });
+	return a;
+  }
+
+  None* zeroNone(Tensor* tensor, bool isGrad) {
+	return new None(&tensor->value[0], &tensor->grad[0], &tensor->reduce[0], isGrad);
+  }
+
+  Tenser<None*>* zeroNones(Tensor* tensor, bool isGrad) {
+	Tenser<None*>* a = new Tenser<None*>(tensor->shape);
+	ForEach::farEachi(a, [tensor, isGrad](None** o, int i) { *o = new None(&tensor->value[i], &tensor->grad[i], &tensor->reduce[i], isGrad); });
 	return a;
   }
 
   Tenser<None*>* zeroNones(vector<int> shape) {
 	Tenser<None*>* a = new Tenser<None*>(shape);
-	ForEach::farEach(a, [](None** o) { *o = new None(0, false); });
+	ForEach::farEach(a, [](None** o) { *o = new None(0.0, false); });
 	return a;
   }
 
@@ -81,18 +119,18 @@ namespace Objects {
 
 	ForEach::forEach(padding, nones->shape[0], [nones, padding, height](int m, int n) {
 	  None* o = nones->get<None*>(m, n);
-	  None* p = new None(0, false);
+	  None* p = new None(0.0, false);
 
 	  None* e = nones->get<None*>(m + padding + height, n);
-	  e = new None(0, false);
+	  e = new None(0.0, false);
 	});
 
 	ForEach::forEach(nones->shape[1], padding, [nones, padding, width](int m, int n) {
 	  None* e = nones->get<None*>(m, n);
-	  e = new None(0, false);
+	  e = new None(0.0, false);
 
 	  None* p = nones->get<None*>(m, n + padding + width);
-	  p = new None(0, false);
+	  p = new None(0.0, false);
 	});
 
 	ForEach::forEach(height, width, [a, nones, padding](int i, int l) {

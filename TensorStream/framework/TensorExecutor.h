@@ -2,6 +2,7 @@
 
 #include "../lang/ForEach.h"
 #include "../core/Tensor.h"
+#include "../core/None.h"
 
 using namespace ForEach;
 
@@ -26,7 +27,7 @@ public:
   void run() {
 	tensor->forward();
 	this->backward();
-	tensor->reduce();
+	tensor->reducer();
   }
 
   void forward(Tenser<double>* input, Tenser<double>* label) {
@@ -41,15 +42,15 @@ public:
 	tensor->backward();
   }
 
-  void reduce() { tensor->reduce(); }
+  void reduce() { tensor->reducer(); }
 
   void setInput(Tenser<double>* o) {
 	Tenser<None*>* a = input->getOutput().get<Tenser<None*>*>();
-	farEach(a, o, [](None** m, double* n) { (*m)->value = *n; });
+	farEach(a, o, [](None** m, double* n) { (*m)->setValue(*n); });
   }
 
   void setLabel(Tenser<double>* o) {
 	Tenser<None*>* a = label->getOutput().get<Tenser<None*>*>();
-	farEach(a, o, [](None** m, double* n) { (*m)->value = *n; });
+	farEach(a, o, [](None** m, double* n) { (*m)->setValue(*n); });
   }
 };
