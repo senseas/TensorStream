@@ -84,7 +84,7 @@ namespace TensorFlux {
   Object getOutput(Object& o) {
     if (o.type() == typeid(Tenser<Tensor*>*)) {
       Tenser<Tensor*>* a = o.get<Tenser<Tensor*>*>();
-      Tenser<Object*> b = Tenser<Object*>(a->shape);
+      Tenser<Object*> b(a->shape);
       farEach(a, &b, [](Tensor** m, Object** n) { *n = &(*m)->getOutput(); });
       vector<int> shape = Objects::shapes(&b);
       Tenser<None*>* c = new Tenser<None*>(shape);

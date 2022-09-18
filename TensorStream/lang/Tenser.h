@@ -28,10 +28,17 @@ public:
     sz = this->next * dim[0];
   }
 
-  void setData(T* data) { this->data = data; }
-  T* getData() { return this->data; }
+  Tenser(const Tenser& tenser) {
+    data = tenser.getData();
+    next = tenser.getNext();
+    sz = tenser.size();
+  }
 
-  size_t size() { return sz; }
+  Tenser operator=(const Tenser& tenser) {
+    data = tenser.getData();
+    next = tenser.getNext();
+    sz = tenser.size();
+  }
 
   template <typename M, class... N>
   M get(N... idxn) {
@@ -72,6 +79,12 @@ public:
       return (M)arr;
     }
   }
+
+  void setData(T* data) { this->data = data; }
+  T* getData() { return this->data; }
+  size_t getNext() { return next; }
+  size_t size() { return sz; }
+  void clear() { delete[] this->data; }
 
 private:
   Tenser<T>* get(int idx) {

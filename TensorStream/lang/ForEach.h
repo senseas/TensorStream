@@ -52,9 +52,8 @@ namespace ForEach {
 
   template <typename M, typename Func>
   void farEachi(Tenser<M>* a, Func func) {
-    int size = a->size();
     M* data = a->getData();
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < a->size(); i++) {
       M* n = &data[i];
       func(n, i);
     }
@@ -62,29 +61,17 @@ namespace ForEach {
 
   template <typename M, typename Func>
   void farEach(Tenser<M>* a, Func func) {
-    for (int i = 0; i < a->shape[0]; i++) {
-      if (a->shape.size() == 1) {
-        M* n = a->template getx<M*>(i);
-        func(n);
-      }
-      else {
-        Tenser<M>* n = a->template getx<Tenser<M>*>(i);
-        farEach(n, func);
-      }
+    for (int i = 0; i < a->size(); i++) {
+      M* n = &a->getData()[i];
+      func(n);
     }
   }
 
   template <typename M, typename Func>
   void forEach(Tenser<M>* a, Func func) {
-    for (int i = 0; i < a->shape[0]; i++) {
-      if (a->shape.size() == 1) {
-        M n = a->template get<M>(i);
-        func(n);
-      }
-      else {
-        Tenser<M>* n = a->template get<Tenser<M>*>(i);
-        forEach(n, func);
-      }
+    for (int i = 0; i < a->size(); i++) {
+      M n = a->getData()[i];
+      func(n);
     }
   }
 
@@ -102,17 +89,10 @@ namespace ForEach {
 
   template <typename M, typename N, typename Func>
   void forEach(Tenser<M>* a, Tenser<N>* b, Func func) {
-    for (int i = 0; i < a->shape[0]; i++) {
-      if (a->shape.size() == 1) {
-        M m = a->template get<M>(i);
-        N n = b->template get<N>(i);
-        func(m, n);
-      }
-      else {
-        Tenser<M>* m = a->template get<Tenser<M>*>(i);
-        Tenser<N>* n = b->template get<Tenser<N>*>(i);
-        forEach(m, n, func);
-      }
+    for (int i = 0; i < a->size(); i++) {
+      M m = a->getData()[i];
+      N n = b->getData()[i];
+      func(m, n);
     }
   }
 
@@ -132,17 +112,10 @@ namespace ForEach {
 
   template <typename M, typename N, typename Func>
   void farEach(Tenser<M>* a, Tenser<N>* b, Func func) {
-    for (int i = 0; i < a->shape[0]; i++) {
-      if (a->shape.size() == 1) {
-        M* m = a->template getx<M*>(i);
-        N* n = b->template getx<N*>(i);
-        func(m, n);
-      }
-      else {
-        Tenser<M>* m = a->template getx<Tenser<M>*>(i);
-        Tenser<N>* n = b->template getx<Tenser<N>*>(i);
-        farEach(m, n, func);
-      }
+    for (int i = 0; i < a->size(); i++) {
+      M* m = &a->getData()[i];
+      N* n = &b->getData()[i];
+      func(m, n);
     }
   }
 }  // namespace ForEach

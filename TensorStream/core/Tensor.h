@@ -99,6 +99,12 @@ public:
     this->function = function;
   }
 
+  ~Tensor() {
+    delete[] value;
+    delete[] grad;
+    delete[] reduce;
+  }
+
   vector<Tensor*> getInput() {
     return input;
   }
