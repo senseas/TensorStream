@@ -9,18 +9,18 @@ public:
   AddOperator(Tensor* a, Tensor* b) : TensorOperator("Add", {a, b}) {};
 
   Object compute() {
-	double value = 0;
-	for (int i = 0; i < getInput().size(); i++) {
-	  value += getInput<None*>(i)->getValue();
-	}
-	return new None(value);
+    double value = 0;
+    for (int i = 0; i < getInput().size(); i++) {
+      value += getInput<None*>(i)->getValue();
+    }
+    return new None(value);
   }
 
   void gradient() {
-	None* out = getOutput<None*>();
-	for (int i = 0; i < getInput().size(); i++) {
-	  getInput<None*>(i)->setGrad(out->getGrad());
-	}
+    None* out = getOutput<None*>();
+    for (int i = 0; i < getInput().size(); i++) {
+      getInput<None*>(i)->setGrad(out->getGrad());
+    }
   }
 };
 
@@ -29,20 +29,20 @@ public:
   AddxOperator(Tensor* a, Tensor* b) : TensorOperator("Addx", {a, b}) {};
 
   Object compute() {
-	Tenser<None*>* B = zeroNones(getInput<Tenser<None*>*>(0)->shape);
-	for (int i = 0; i < getInput().size(); i++) {
-	  Tenser<None*>* A = getInput<Tenser<None*>*>(i);
-	  forEach(A, B, [](None* a, None* b) { b->setValue(b->getValue() + a->getValue()); });
-	}
-	return B;
+    Tenser<None*>* B = zeroNones(getInput<Tenser<None*>*>(0)->shape);
+    for (int i = 0; i < getInput().size(); i++) {
+      Tenser<None*>* A = getInput<Tenser<None*>*>(i);
+      forEach(A, B, [](None* a, None* b) { b->setValue(b->getValue() + a->getValue()); });
+    }
+    return B;
   }
 
   void gradient() {
-	Tenser<None*>* B = getOutput<Tenser<None*>*>();
-	for (int i = 0; i < getInput().size(); i++) {
-	  Tenser<None*>* A = getInput<Tenser<None*>*>(i);
-	  forEach(A, B, [](None* a, None* b) { a->setGrad(b->getGrad()); });
-	}
+    Tenser<None*>* B = getOutput<Tenser<None*>*>();
+    for (int i = 0; i < getInput().size(); i++) {
+      Tenser<None*>* A = getInput<Tenser<None*>*>(i);
+      forEach(A, B, [](None* a, None* b) { a->setGrad(b->getGrad()); });
+    }
   }
 };
 
@@ -51,16 +51,16 @@ public:
   SumOperator(Tensor* a) : TensorOperator("Sum", {a}) {};
 
   Object compute() {
-	Tenser<None*>* A = getInput<Tenser<None*>*>(0);
-	None* b = new None(0.0);
-	forEach(A, [b](None* a) { b->setValue(b->getValue() + a->getValue()); });
-	return b;
+    Tenser<None*>* A = getInput<Tenser<None*>*>(0);
+    None* b = new None(0.0);
+    forEach(A, [b](None* a) { b->setValue(b->getValue() + a->getValue()); });
+    return b;
   }
 
   void gradient() {
-	Tenser<None*>* A = getInput<Tenser<None*>*>(0);
-	None* b = getOutput<None*>();
-	forEach(A, [b](None* a) { a->setGrad(b->getGrad()); });
+    Tenser<None*>* A = getInput<Tenser<None*>*>(0);
+    None* b = getOutput<None*>();
+    forEach(A, [b](None* a) { a->setGrad(b->getGrad()); });
   }
 };
 
@@ -70,17 +70,17 @@ public:
   MinusOperator(Tensor* a, Tensor* b) : TensorOperator("Minus", {a, b}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
-	double valx = inx->getValue(), valy = iny->getValue();
-	return new None(valx - valy);
+    None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
+    double valx = inx->getValue(), valy = iny->getValue();
+    return new None(valx - valy);
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
-	None* out = getOutput<None*>();
-	double grad = out->getGrad();
-	inx->setGrad(grad);
-	iny->setGrad(-grad);
+    None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
+    None* out = getOutput<None*>();
+    double grad = out->getGrad();
+    inx->setGrad(grad);
+    iny->setGrad(-grad);
   }
 };
 
@@ -89,15 +89,15 @@ public:
   MinusxOperator(Tensor* a) : TensorOperator("Minus", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(-valx);
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(-valx);
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0), * out = getOutput<None*>();
-	double grad = out->getGrad();
-	inx->setGrad(-grad);
+    None* inx = getInput<None*>(0), * out = getOutput<None*>();
+    double grad = out->getGrad();
+    inx->setGrad(-grad);
   }
 };
 
@@ -106,19 +106,19 @@ public:
   MulOperator(Tensor* a, Tensor* b) : TensorOperator("Mul", {a, b}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
-	double valx = inx->getValue(), valy = iny->getValue();
-	return new None(valx * valy);
+    None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
+    double valx = inx->getValue(), valy = iny->getValue();
+    return new None(valx * valy);
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue(), valy = iny->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(grad * valy);
-	iny->setGrad(grad * valx);
+    double valx = inx->getValue(), valy = iny->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(grad * valy);
+    iny->setGrad(grad * valx);
   }
 };
 
@@ -127,19 +127,19 @@ public:
   DivOperator(Tensor* a, Tensor* b) : TensorOperator("Div", {a, b}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
-	double valx = inx->getValue(), valy = iny->getValue();
-	return new None(valx / valy);
+    None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
+    double valx = inx->getValue(), valy = iny->getValue();
+    return new None(valx / valy);
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue(), valy = iny->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(grad / valy);
-	iny->setGrad(-grad * valx / (valy * valy));
+    double valx = inx->getValue(), valy = iny->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(grad / valy);
+    iny->setGrad(-grad * valx / (valy * valy));
   }
 };
 
@@ -148,18 +148,18 @@ public:
   PowOperator(Tensor* a, Tensor* b) : TensorOperator("Pow", {a, b}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	None* iny = getInput<None*>(1);
-	double valx = inx->getValue(), valy = iny->getValue();
-	return new None(pow(valx, valy));
+    None* inx = getInput<None*>(0);
+    None* iny = getInput<None*>(1);
+    double valx = inx->getValue(), valy = iny->getValue();
+    return new None(pow(valx, valy));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
-	None* out = getOutput<None*>();
-	double valx = inx->getValue(), valy = iny->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(grad * valy * pow(valx, valy - 1));
+    None* inx = getInput<None*>(0), * iny = getInput<None*>(1);
+    None* out = getOutput<None*>();
+    double valx = inx->getValue(), valy = iny->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(grad * valy * pow(valx, valy - 1));
   }
 };
 
@@ -168,16 +168,16 @@ public:
   ExpOperator(Tensor* a) : TensorOperator("Exp", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(exp(valx));
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(exp(valx));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0), * out = getOutput<None*>();
-	double valx = inx->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(grad * exp(valx));
+    None* inx = getInput<None*>(0), * out = getOutput<None*>();
+    double valx = inx->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(grad * exp(valx));
   }
 };
 
@@ -186,10 +186,10 @@ public:
   ExpxFunction(Tensor* a) : TensorFunction("Expx", {a}) {};
 
   Object compute() {
-	Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);
-	Tenser<Tensor*>* B = zeroTensors(A->shape);
-	farEach(A, B, [](Tensor** a, Tensor** b) { *b = new ExpOperator(*a); });
-	return B;
+    Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);
+    Tenser<Tensor*>* B = zeroTensors(A->shape);
+    farEach(A, B, [](Tensor** a, Tensor** b) { *b = new ExpOperator(*a); });
+    return B;
   }
 };
 
@@ -198,17 +198,17 @@ public:
   LogOperator(Tensor* a) : TensorOperator("Log", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(log(valx));
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(log(valx));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* out = getOutput<None*>();
-	double valx = inx->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(grad / valx);
+    None* inx = getInput<None*>(0);
+    None* out = getOutput<None*>();
+    double valx = inx->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(grad / valx);
   }
 };
 
@@ -217,22 +217,22 @@ public:
   MaxOperator(Tensor* a, Tensor* b) : TensorOperator("Max", {a, b}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	None* iny = getInput<None*>(1);
+    None* inx = getInput<None*>(0);
+    None* iny = getInput<None*>(1);
 
-	double valx = inx->getValue(), valy = iny->getValue();
-	return new None(max(valx, valy));
+    double valx = inx->getValue(), valy = iny->getValue();
+    return new None(max(valx, valy));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* iny = getInput<None*>(1);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0);
+    None* iny = getInput<None*>(1);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue(), valy = iny->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(valx > valy ? grad : 0);
-	iny->setGrad(valx < valy ? grad : 0);
+    double valx = inx->getValue(), valy = iny->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(valx > valy ? grad : 0);
+    iny->setGrad(valx < valy ? grad : 0);
   }
 };
 
@@ -241,22 +241,22 @@ public:
   MinOperator(Tensor* a, Tensor* b) : TensorOperator("Max", {a, b}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	None* iny = getInput<None*>(1);
+    None* inx = getInput<None*>(0);
+    None* iny = getInput<None*>(1);
 
-	double valx = inx->getValue(), valy = iny->getValue();
-	return new None(min(valx, valy));
+    double valx = inx->getValue(), valy = iny->getValue();
+    return new None(min(valx, valy));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* iny = getInput<None*>(1);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0);
+    None* iny = getInput<None*>(1);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue(), valy = iny->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(valx < valy ? 0 : grad);
-	iny->setGrad(valx > valy ? 0 : grad);
+    double valx = inx->getValue(), valy = iny->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(valx < valy ? 0 : grad);
+    iny->setGrad(valx > valy ? 0 : grad);
   }
 };
 
@@ -265,18 +265,18 @@ public:
   SinOperator(Tensor* a) : TensorOperator("Sin", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(sin(valx));
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(sin(valx));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(grad * cos(valx));
+    double valx = inx->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(grad * cos(valx));
   }
 };
 
@@ -285,18 +285,18 @@ public:
   CosOperator(Tensor* a) : TensorOperator("Sin", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(cos(valx));
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(cos(valx));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(-grad * sin(valx));
+    double valx = inx->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(-grad * sin(valx));
   }
 };
 
@@ -305,18 +305,18 @@ public:
   TanOperator(Tensor* a) : TensorOperator("Sin", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(tan(valx));
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(tan(valx));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(grad / pow(cos(valx), 2));
+    double valx = inx->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(grad / pow(cos(valx), 2));
   }
 };
 
@@ -325,18 +325,18 @@ public:
   CotOperator(Tensor* a) : TensorOperator("Sin", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(1 / tan(valx));
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(1 / tan(valx));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(-grad / pow(sin(valx), 2));
+    double valx = inx->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(-grad / pow(sin(valx), 2));
   }
 };
 
@@ -345,18 +345,18 @@ public:
   ArcsinOperator(Tensor* a) : TensorOperator("Sin", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(asin(valx));
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(asin(valx));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(grad / pow(1 - valx * valx, -2));
+    double valx = inx->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(grad / pow(1 - valx * valx, -2));
   }
 };
 
@@ -365,17 +365,17 @@ public:
   ArccosOperator(Tensor* a) : TensorOperator("Sin", {a}) {};
 
   Object compute() {
-	None* inx = getInput<None*>(0);
-	double valx = inx->getValue();
-	return new None(acos(valx));
+    None* inx = getInput<None*>(0);
+    double valx = inx->getValue();
+    return new None(acos(valx));
   }
 
   void gradient() {
-	None* inx = getInput<None*>(0);
-	None* out = getOutput<None*>();
+    None* inx = getInput<None*>(0);
+    None* out = getOutput<None*>();
 
-	double valx = inx->getValue();
-	double grad = out->getGrad();
-	inx->setGrad(-grad / pow(1 - valx * valx, -2));
+    double valx = inx->getValue();
+    double grad = out->getGrad();
+    inx->setGrad(-grad / pow(1 - valx * valx, -2));
   }
 };

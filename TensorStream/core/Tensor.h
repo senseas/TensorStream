@@ -42,65 +42,65 @@ public:
 
 public:
   Tensor(double value) {
-	this->name = "None";
-	this->value = new double[1] {value};
-	this->grad = new double[1] {0};
-	this->reduce = new bool[1] {false};
-	this->output = zeroNone(this, true);
+    this->name = "None";
+    this->value = new double[1] {value};
+    this->grad = new double[1] {0};
+    this->reduce = new bool[1] {false};
+    this->output = zeroNone(this, true);
   }
 
   Tensor(double value, bool isGrad) {
-	this->name = "None";
-	this->value = new double[1] {value};;
-	this->grad = new double[1] {0};
-	this->reduce = new bool[1] {false};
-	this->output = zeroNone(this, isGrad);
+    this->name = "None";
+    this->value = new double[1] {value};;
+    this->grad = new double[1] {0};
+    this->reduce = new bool[1] {false};
+    this->output = zeroNone(this, isGrad);
   }
 
   Tensor(std::initializer_list<int> shape) {
-	this->name = "None";
-	this->shape = shape;
-	this->value = random<double>(shape);
-	this->grad = zeros<double>(shape);
-	this->reduce = values(shape, false);
-	this->output = zeroNones(this, true);
+    this->name = "None";
+    this->shape = shape;
+    this->value = random<double>(shape);
+    this->grad = zeros<double>(shape);
+    this->reduce = values(shape, false);
+    this->output = zeroNones(this, true);
   }
 
   Tensor(string name, vector<int> shape) {
-	this->name = "None::" + name;
-	this->shape = shape;
-	this->value = random<double>(shape);
-	this->grad = zeros<double>(shape);
-	this->reduce = values(shape, false);
-	this->output = zeroNones(this, true);
+    this->name = "None::" + name;
+    this->shape = shape;
+    this->value = random<double>(shape);
+    this->grad = zeros<double>(shape);
+    this->reduce = values(shape, false);
+    this->output = zeroNones(this, true);
   }
 
   Tensor(vector<int> shape, double value, bool isGrad) {
-	this->name = "None";
-	this->shape = shape;
-	this->value = values(shape, value);
-	this->grad = zeros<double>(shape);
-	this->reduce = values(shape, false);
-	this->output = zeroNones(this, isGrad);
+    this->name = "None";
+    this->shape = shape;
+    this->value = values(shape, value);
+    this->grad = zeros<double>(shape);
+    this->reduce = values(shape, false);
+    this->output = zeroNones(this, isGrad);
   }
 
   Tensor(string name, vector<Tensor*> input) {
-	this->name = this->name + name;
-	this->input = input;
+    this->name = this->name + name;
+    this->input = input;
   }
 
   Tensor(None* input) {
-	this->name = "None";
-	this->output = input;
+    this->name = "None";
+    this->output = input;
   }
 
   Tensor(void* function) {
-	this->name = "Function";
-	this->function = function;
+    this->name = "Function";
+    this->function = function;
   }
 
   vector<Tensor*> getInput() {
-	return input;
+    return input;
   }
 
   virtual Object compute() { return nullptr; }
@@ -111,15 +111,15 @@ public:
   virtual  void reducer() {};
 
   virtual Object& getOutput() {
-	return output;
+    return output;
   }
 
   virtual Object& getFunction() {
-	return function;
+    return function;
   }
 
   template <typename M>
   M getOutput() {
-	return output.get<M>();
+    return output.get<M>();
   }
 };

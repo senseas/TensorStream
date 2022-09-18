@@ -13,44 +13,44 @@ private:
 
 public:
   TensorExecutor(Tensor* tensor, Tensor* input, Tensor* label) {
-	this->tensor = tensor;
-	this->input = input;
-	this->label = label;
+    this->tensor = tensor;
+    this->input = input;
+    this->label = label;
   }
 
   void run(Tenser<double>* input, Tenser<double>* label) {
-	setInput(input);
-	setLabel(label);
-	run();
+    setInput(input);
+    setLabel(label);
+    run();
   }
 
   void run() {
-	tensor->forward();
-	this->backward();
-	tensor->reducer();
+    tensor->forward();
+    this->backward();
+    tensor->reducer();
   }
 
   void forward(Tenser<double>* input, Tenser<double>* label) {
-	setInput(input);
-	setLabel(label);
-	tensor->forward();
+    setInput(input);
+    setLabel(label);
+    tensor->forward();
   }
 
   void backward() {
-	Object& o = tensor->getOutput();
-	forEach<None*>(o, [](None* a) { a->setGrad(1); });
-	tensor->backward();
+    Object& o = tensor->getOutput();
+    forEach<None*>(o, [](None* a) { a->setGrad(1); });
+    tensor->backward();
   }
 
   void reduce() { tensor->reducer(); }
 
   void setInput(Tenser<double>* o) {
-	Tenser<None*>* a = input->getOutput().get<Tenser<None*>*>();
-	farEach(a, o, [](None** m, double* n) { (*m)->setValue(*n); });
+    Tenser<None*>* a = input->getOutput().get<Tenser<None*>*>();
+    farEach(a, o, [](None** m, double* n) { (*m)->setValue(*n); });
   }
 
   void setLabel(Tenser<double>* o) {
-	Tenser<None*>* a = label->getOutput().get<Tenser<None*>*>();
-	farEach(a, o, [](None** m, double* n) { (*m)->setValue(*n); });
+    Tenser<None*>* a = label->getOutput().get<Tenser<None*>*>();
+    farEach(a, o, [](None** m, double* n) { (*m)->setValue(*n); });
   }
 };

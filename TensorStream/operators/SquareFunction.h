@@ -4,19 +4,19 @@
 #include "../operators/Operator.h"
 
 class SquareFunction : public TensorFunction {
- public:
-  SquareFunction(Tensor* a, Tensor* b) : TensorFunction("Square", {a, b}){};
+public:
+  SquareFunction(Tensor* a, Tensor* b) : TensorFunction("Square", {a, b}) {};
 
   Object compute() {
     Tensor* a = getInput<Tensor*>(0);
     Tensor* b = getInput<Tensor*>(1);
-    return new MulOperator(new TensorConst(0.5),new PowOperator(new MinusOperator(a, b), new TensorConst(2)));
+    return new MulOperator(new TensorConst(0.5), new PowOperator(new MinusOperator(a, b), new TensorConst(2)));
   }
 };
 
 class SquarexFunction : public TensorFunction {
- public:
-  SquarexFunction(Tensor* a, Tensor* b) : TensorFunction("Squarex", {a, b}){};
+public:
+  SquarexFunction(Tensor* a, Tensor* b) : TensorFunction("Squarex", {a, b}) {};
 
   Object compute() {
     Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);

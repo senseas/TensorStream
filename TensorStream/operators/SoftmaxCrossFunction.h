@@ -4,19 +4,19 @@
 #include "../operators/Operator.h"
 
 class SoftmaxCrossFunction : public TensorFunction {
- public:
-  SoftmaxCrossFunction(Tensor* a, Tensor* b) : TensorFunction("SoftmaxCross", {a, b}){};
+public:
+  SoftmaxCrossFunction(Tensor* a, Tensor* b) : TensorFunction("SoftmaxCross", {a, b}) {};
 
   Object compute() {
-    Tensor *a = getInput<Tensor*>(0), *b = getInput<Tensor*>(1);
+    Tensor* a = getInput<Tensor*>(0), * b = getInput<Tensor*>(1);
     return new MinusxOperator(new MulOperator(a, new LogOperator(b)));
   }
-  
+
 };
 
 class SoftmaxCrossxFunction : public TensorFunction {
- public:
-  SoftmaxCrossxFunction(Tensor* a, Tensor* b) : TensorFunction("SoftmaxCross", {a, b}){};
+public:
+  SoftmaxCrossxFunction(Tensor* a, Tensor* b) : TensorFunction("SoftmaxCross", {a, b}) {};
 
   Object compute() {
     Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);

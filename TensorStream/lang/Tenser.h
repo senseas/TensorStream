@@ -18,14 +18,14 @@ public:
   ~Tenser() { delete[] this->data; }
 
   Tenser(std::vector<int> dim) : shape(dim) {
-	next = std::accumulate(dim.begin() + 1, dim.end(), 1L, std::multiplies<size_t>());
-	sz = this->next * dim[0];
-	data = new T[sz];
+    next = std::accumulate(dim.begin() + 1, dim.end(), 1L, std::multiplies<size_t>());
+    sz = this->next * dim[0];
+    data = new T[sz];
   }
 
   Tenser(T* data, std::vector<int> dim) : data(data), shape(dim) {
-	next = std::accumulate(dim.begin() + 1, dim.end(), 1L, std::multiplies<size_t>());
-	sz = this->next * dim[0];
+    next = std::accumulate(dim.begin() + 1, dim.end(), 1L, std::multiplies<size_t>());
+    sz = this->next * dim[0];
   }
 
   void setData(T* data) { this->data = data; }
@@ -35,51 +35,51 @@ public:
 
   template <typename M, class... N>
   M get(N... idxn) {
-	std::vector<int> idx = {idxn...};
-	Tenser<T>* arr = this;
-	if (shape.size() == idx.size()) {
-	  int length = idx.size() - 1;
-	  for (int i = 0; i < length; i++) {
-		arr = arr->get(idx[i]);
-	  }
-	  return (M)arr->getValue(idx[length]);
-	}
-	else {
-	  int length = idx.size();
-	  for (int i = 0; i < length; i++) {
-		arr = arr->get(idx[i]);
-	  }
-	  return (M)arr;
-	}
+    std::vector<int> idx = {idxn...};
+    Tenser<T>* arr = this;
+    if (shape.size() == idx.size()) {
+      int length = idx.size() - 1;
+      for (int i = 0; i < length; i++) {
+        arr = arr->get(idx[i]);
+      }
+      return (M)arr->getValue(idx[length]);
+    }
+    else {
+      int length = idx.size();
+      for (int i = 0; i < length; i++) {
+        arr = arr->get(idx[i]);
+      }
+      return (M)arr;
+    }
   }
 
   template <typename M, class... N>
   M getx(N... idxn) {
-	std::vector<int> idx = {idxn...};
-	Tenser<T>* arr = this;
-	if (shape.size() == idx.size()) {
-	  int length = idx.size() - 1;
-	  for (int i = 0; i < length; i++) {
-		arr = arr->get(idx[i]);
-	  }
-	  return (M)arr->getValuex(idx[length]);
-	}
-	else {
-	  int length = idx.size();
-	  for (int i = 0; i < length; i++) {
-		arr = arr->get(idx[i]);
-	  }
-	  return (M)arr;
-	}
+    std::vector<int> idx = {idxn...};
+    Tenser<T>* arr = this;
+    if (shape.size() == idx.size()) {
+      int length = idx.size() - 1;
+      for (int i = 0; i < length; i++) {
+        arr = arr->get(idx[i]);
+      }
+      return (M)arr->getValuex(idx[length]);
+    }
+    else {
+      int length = idx.size();
+      for (int i = 0; i < length; i++) {
+        arr = arr->get(idx[i]);
+      }
+      return (M)arr;
+    }
   }
 
 private:
   Tenser<T>* get(int idx) {
-	assert(idx < static_cast<int>(shape[0]));
-	std::vector<int> dim;
-	std::copy(shape.begin() + 1, shape.end(), std::back_inserter(dim));
-	Tenser<T>* result = new Tenser<T>(data + idx * next, dim);
-	return result;
+    assert(idx < static_cast<int>(shape[0]));
+    std::vector<int> dim;
+    std::copy(shape.begin() + 1, shape.end(), std::back_inserter(dim));
+    Tenser<T>* result = new Tenser<T>(data + idx * next, dim);
+    return result;
   }
 
   T* getValuex(int idx) { return &data[idx]; }

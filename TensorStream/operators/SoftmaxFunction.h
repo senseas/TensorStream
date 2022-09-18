@@ -5,8 +5,8 @@
 using namespace Objects;
 
 class SoftmaNFunction : public TensorFunction {
- public:
-  SoftmaNFunction(Tensor* a) : TensorFunction("Softmax", {a}){};
+public:
+  SoftmaNFunction(Tensor* a) : TensorFunction("Softmax", {a}) {};
 
   Object compute() {
     Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);

@@ -3,8 +3,8 @@
 #include "../lang/Include.h"
 
 class ShapeFunction : public TensorFunction {
- public:
-  ShapeFunction(Tensor* a, Tensor* b) : TensorFunction("Pow", {a, b}){};
+public:
+  ShapeFunction(Tensor* a, Tensor* b) : TensorFunction("Pow", {a, b}) {};
 
   Object compute() {
     Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);

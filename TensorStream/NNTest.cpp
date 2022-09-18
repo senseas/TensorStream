@@ -11,37 +11,37 @@ using namespace ForEach;
 
 void NNTest() {
   double* inputd = new double[42] {
-	0.1, 0.1,
-	0.1, 0.2,
-	0.1, 0.3,
-	0.2, 0.2,
-	0.2, 0.3,
-	0.2, 0.5,
-	0.3, 0.3,
-	0.3, 0.4,
-	0.3, 0.7,
-	0.4, 0.5,
-	0.4, 0.6,
-	0.4, 0.8,
-	0.5, 0.3,
-	0.5, 0.6,
-	0.5, 0.9,
-	0.8, 0.2,
-	0.8, 0.7,
-	0.8, 0.9,
-	0.9, 0.3,
-	0.9, 0.6,
-	0.9, 0.9
+    0.1, 0.1,
+      0.1, 0.2,
+      0.1, 0.3,
+      0.2, 0.2,
+      0.2, 0.3,
+      0.2, 0.5,
+      0.3, 0.3,
+      0.3, 0.4,
+      0.3, 0.7,
+      0.4, 0.5,
+      0.4, 0.6,
+      0.4, 0.8,
+      0.5, 0.3,
+      0.5, 0.6,
+      0.5, 0.9,
+      0.8, 0.2,
+      0.8, 0.7,
+      0.8, 0.9,
+      0.9, 0.3,
+      0.9, 0.6,
+      0.9, 0.9
   };
 
   double* labeld = new double[21] {
-	0.01, 0.02, 0.03,
-	0.04, 0.06, 0.10,
-	0.09, 0.12, 0.21,
-	0.20, 0.24, 0.32,
-	0.15, 0.30, 0.45,
-	0.16, 0.56, 0.72,
-	0.27, 0.45, 0.81
+    0.01, 0.02, 0.03,
+      0.04, 0.06, 0.10,
+      0.09, 0.12, 0.21,
+      0.20, 0.24, 0.32,
+      0.15, 0.30, 0.45,
+      0.16, 0.56, 0.72,
+      0.27, 0.45, 0.81
   };
 
   Tenser<double>* inputSet = new Tenser<double>(inputd, {21, 2, 1});
@@ -67,18 +67,18 @@ void NNTest() {
   std::cout.precision(15);
 
   forEach(100000000, [inputSet, labelSet, executor, tensor33, tensor34](int i) {
-	int l = rand() % (21);
-	Tenser<double>* inSet = inputSet->getx<Tenser<double>*>(l);
-	Tenser<double>* labSet = labelSet->getx<Tenser<double>*>(l);
-	executor->run(inSet, labSet);
-	if (i % 100 == 0) {
-	  None* loss = tensor34->getOutput<None*>();
-	  Tenser<None*>* out = tensor33->getOutput<Tenser<None*>*>();
-	  farEach(inSet, [](double* n) { std::cout << *n << std::endl; });
-	  farEach(labSet, [](double* n) { std::cout << *n << std::endl; });
-	  farEach(out, [](None** a) { std::cout << (*a)->getValue() << std::endl; });
-	  std::cout << "-----------------" << std::endl;
-	}
+    int l = rand() % (21);
+    Tenser<double>* inSet = inputSet->getx<Tenser<double>*>(l);
+    Tenser<double>* labSet = labelSet->getx<Tenser<double>*>(l);
+    executor->run(inSet, labSet);
+    if (i % 100 == 0) {
+      None* loss = tensor34->getOutput<None*>();
+      Tenser<None*>* out = tensor33->getOutput<Tenser<None*>*>();
+      farEach(inSet, [](double* n) { std::cout << *n << std::endl; });
+      farEach(labSet, [](double* n) { std::cout << *n << std::endl; });
+      farEach(out, [](None** a) { std::cout << (*a)->getValue() << std::endl; });
+      std::cout << "-----------------" << std::endl;
+    }
   });
 }
 

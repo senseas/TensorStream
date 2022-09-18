@@ -8,19 +8,19 @@
 using namespace Objects;
 
 class SigmoidFunction : public TensorFunction {
- public:
-  SigmoidFunction(Tensor* a) : TensorFunction("Sigmoid", {a}){};
+public:
+  SigmoidFunction(Tensor* a) : TensorFunction("Sigmoid", {a}) {};
 
   Object compute() {
     Tensor* A = getInput<Tensor*>(0);
-    return new DivOperator(new TensorConst(1),new AddOperator(new TensorConst(1),new ExpOperator(new MinusxOperator(A))));
+    return new DivOperator(new TensorConst(1), new AddOperator(new TensorConst(1), new ExpOperator(new MinusxOperator(A))));
   }
 
 };
 
 class SigmoidxFunction : public TensorFunction {
- public:
-  SigmoidxFunction(Tensor* a) : TensorFunction("sigmoidx", {a}){};
+public:
+  SigmoidxFunction(Tensor* a) : TensorFunction("sigmoidx", {a}) {};
 
   Object compute() {
     Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);
