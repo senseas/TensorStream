@@ -37,6 +37,7 @@ namespace TensorFlux {
       });
       if (nones.type() == typeid(Tenser<None*>*)) {
         Tenser<None*>* m = nones.get<Tenser<None*>*>();
+        m->clear();
         delete m;
       }
       else {
@@ -89,6 +90,7 @@ namespace TensorFlux {
       vector<int> shape = Objects::shapes(&b);
       Tenser<None*>* c = new Tenser<None*>(shape);
       farEach(&b, c, [](Object** m, None** n) { *n = (*m)->get<None*>(); });
+      b.clear();
       return c;
     }
     else {
