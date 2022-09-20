@@ -17,23 +17,11 @@ public:
   vector<Tensor*> getInput() { return input; }
 
   Object& getOutput() {
-    if (output.nonNull()) {
-      return output;
-    }
-    if (getFunction().nonNull()) {
-      output = TensorFlux::getOutput(function);
-    }
     return output;
   }
 
   template <typename M>
   M getOutput() {
-    if (output.nonNull()) {
-      return output.get<M>();
-    }
-    if (getFunction().nonNull()) {
-      output = TensorFlux::getOutput(function);
-    }
     return output.get<M>();
   }
 

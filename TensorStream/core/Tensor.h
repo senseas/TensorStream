@@ -35,8 +35,7 @@ public:
   string name = "";
   vector<Tensor*> input;
   vector<int> shape;
-  Object function;
-  Object output;
+  Object function, funcout, output;
   double* value = nullptr, * grad = nullptr;
   bool* reduce = nullptr;
 
