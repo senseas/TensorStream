@@ -37,8 +37,8 @@ public:
   vector<int> shape;
   Object function;
   Object output;
-  double* value, * grad;
-  bool* reduce;
+  double* value = nullptr, * grad = nullptr;
+  bool* reduce = nullptr;
 
 public:
   Tensor(double value) {

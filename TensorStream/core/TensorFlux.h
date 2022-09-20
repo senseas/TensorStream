@@ -37,6 +37,9 @@ namespace TensorFlux {
       });
       if (nones.type() == typeid(Tenser<None*>*)) {
         Tenser<None*>* m = nones.get<Tenser<None*>*>();
+        for (int i = 0; i < m->size(); i++) {
+          delete m->getData()[i];
+        }
         m->clear();
         delete m;
       }
