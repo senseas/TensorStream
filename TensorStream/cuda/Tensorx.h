@@ -11,14 +11,14 @@ public:
 
 public:
   Tensor(vector<T>& data) {
-	this->shape ={(int)data.size()};
-	this->data = data;
-	this->datax = setCudaData(data);
+    this->shape = {(int)data.size()};
+    this->data = data;
+    this->datax = setCudaData(data);
   }
 
   Tensor(vector<T>& data, vector<int>& shape) {
-	this->shape = shape;
-	this->data = data;
-	this->datax = setCudaData(data);
+    this->shape = shape;
+    this->data = data;
+    this->datax = setCudaData(data);
   }
 };
