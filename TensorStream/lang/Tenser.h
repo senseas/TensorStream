@@ -52,14 +52,11 @@ public:
       return (M)arr->getValue(idx[length]);
     }
     else {
-      int length = idx.size();
+      int length = idx.size() - 1;
       for (int i = 0; i < length; i++) {
-        if (arr != this) {
-          delete arr;
-        }
         arr = arr->get(idx[i]);
       }
-      return (M)arr;
+      return (M)arr->get(idx[length]);
     }
   }
 
@@ -75,14 +72,11 @@ public:
       return (M)arr->getValuex(idx[length]);
     }
     else {
-      int length = idx.size();
+      int length = idx.size() - 1;
       for (int i = 0; i < length; i++) {
-        if (arr != this) {
-          delete arr;
-        }
-        arr = arr->get(idx[i]);
+        arr = arr->getx(idx[i]);
       }
-      return (M)arr;
+      return (M)arr->get(idx[length]);
     }
   }
 
