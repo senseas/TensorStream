@@ -92,6 +92,10 @@ namespace Objects {
     return found != std::string::npos;
   }
 
+  bool isTenser(Object& tensor) {
+    return tensor.type() == typeid(Tenser<None*>*);
+  }
+
   vector<int> shapes(Tenser<Object*>* arr) {
     vector<int> list = arr->shape;
     vector<int> shape(arr->shape.size());
