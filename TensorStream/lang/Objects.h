@@ -44,7 +44,7 @@ namespace Objects {
   }
 
   template <typename T>
-  T* values(vector<int> shape, T value) {
+  T* listof(vector<int> shape, T value) {
     int size = shapeSize(shape);
     T* a = new T[size];
     ForEach::forEach(size, [value, a](int i) { a[i] = value; });
@@ -76,6 +76,11 @@ namespace Objects {
   template <typename T>
   bool nonNull(T object) {
     return object != nullptr;
+  }
+
+  template <typename T>
+  bool isNull(T object) {
+    return object == nullptr;
   }
 
   bool isFunction(Tensor* tensor) {

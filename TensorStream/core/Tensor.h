@@ -21,7 +21,7 @@ namespace Objects {
   T* zeros(vector<int> shape);
 
   template <typename T>
-  T* values(vector<int> shape, T value);
+  T* listof(vector<int> shape, T value);
 
   None* zeroNone(Tensor* tensor, bool isGrad);
 
@@ -62,7 +62,7 @@ public:
     this->shape = shape;
     this->value = random<double>(shape);
     this->grad = zeros<double>(shape);
-    this->reduce = values(shape, false);
+    this->reduce = listof(shape, false);
     this->output = zeroNones(this, true);
   }
 
@@ -71,16 +71,16 @@ public:
     this->shape = shape;
     this->value = random<double>(shape);
     this->grad = zeros<double>(shape);
-    this->reduce = values(shape, false);
+    this->reduce = listof(shape, false);
     this->output = zeroNones(this, true);
   }
 
   Tensor(vector<int> shape, double value, bool isGrad) {
     this->name = "None";
     this->shape = shape;
-    this->value = values(shape, value);
+    this->value = listof(shape, value);
     this->grad = zeros<double>(shape);
-    this->reduce = values(shape, false);
+    this->reduce = listof(shape, false);
     this->output = zeroNones(this, isGrad);
   }
 
