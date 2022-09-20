@@ -119,12 +119,13 @@ public:
     return output;
   }
 
-  virtual Object& getFunction() {
-    return function;
-  }
-
   template <typename M>
   M getOutput() {
     return output.get<M>();
   }
+
+  virtual Object& getFunction() {
+    return function;
+  }
+  
 };

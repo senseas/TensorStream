@@ -16,15 +16,6 @@ public:
 
   vector<Tensor*> getInput() { return input; }
 
-  Object& getOutput() {
-    return output;
-  }
-
-  template <typename M>
-  M getOutput() {
-    return output.get<M>();
-  }
-
   Object& getFunction() {
     if (function.nonNull()) {
       return function;
