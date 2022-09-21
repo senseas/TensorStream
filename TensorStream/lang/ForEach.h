@@ -1,4 +1,3 @@
-
 #pragma once
 #include "../lang/Object.h"
 #include "../lang/Tenser.h"

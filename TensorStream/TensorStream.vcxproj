@@ -18,12 +18,14 @@
     <ClInclude Include="core\TensorFunction.h" />
     <ClInclude Include="core\TensorOperator.h" />
     <ClInclude Include="cuda\CudaUtil.h" />
+    <ClInclude Include="cuda\functionx.h" />
     <ClInclude Include="cuda\Tensorx.h" />
     <ClInclude Include="framework\TensorExecutor.h" />
     <ClInclude Include="framework\TensorFlow.h" />
     <ClInclude Include="lang\ForEach.h" />
     <ClInclude Include="lang\Include.h" />
     <ClInclude Include="lang\Object.h" />
+    <ClInclude Include="lang\Lang.h" />
     <ClInclude Include="lang\Objects.h" />
     <ClInclude Include="lang\Tenser.h" />
     <ClInclude Include="operators\ConvOperator.h" />
