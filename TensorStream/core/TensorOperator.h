@@ -25,7 +25,7 @@ public:
 
   None* createOutput() {
     if (this->getOutput().isNull()) {
-      TensorFlux::createOutput(this, shape);
+      TensorFlux::createOutput(this);
     }
     return output.get<None*>();
   }
