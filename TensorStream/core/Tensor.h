@@ -4,15 +4,17 @@
 #include <vector>
 #include "../lang/Object.h"
 #include "../lang/Tenser.h"
+#include "../core/None.h"
+#include "../cuda/Tensorx.h"
 
 using namespace std;
-class None;
 class Tensor;
 
 namespace Objects {
   bool isNone(Tensor* tensor);
   vector<int> shapes(Tenser<Object*>* arr);
   bool isFunction(Tensor* tensor);
+  int shapeSize(vector<int> shape);
 
   template <typename T>
   T* random(vector<int> shape);
@@ -37,6 +39,7 @@ public:
   vector<int> shape;
   Object function, funcout, output;
   double* value = nullptr, * grad = nullptr;
+  double* valuex = nullptr, * gradx = nullptr;
   bool* reduce = nullptr;
 
 public:
@@ -127,5 +130,15 @@ public:
   virtual Object& getFunction() {
     return function;
   }
-  
+
+  Tensor* cuda() {
+    if (valuex != nullptr) return this;
+    size_t size = Objects::shapeSize(shape);
+    Tensorx<double> val(value, size);
+    valuex = val.datax();
+    Tensorx<double> gra(grad, size);
+    gradx = gra.datax();
+    return this;
+  }
+
 };

@@ -4,8 +4,10 @@
 #include <vector>
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-
 using namespace std;
+
+template<typename T>
+class Tensorx;
 
 cudaError_t creatDevice() {
   cudaError_t cudaStatus;
@@ -43,7 +45,7 @@ cudaError_t cudaReset() {
 };
 
 template<typename T>
-T* setCudaData(vector<T>& a) {
+T* setCudaData(Tensorx<T>& a) {
   T* dev_a = 0;
   cudaError_t cudaStatus;
   // Allocate GPU buffers for three vectors (two input, one output)    .
@@ -66,19 +68,27 @@ Error:
 }
 
 template<typename T>
-cudaError_t getCudaDate(vector<T>& c, T* dev_c) {
+cudaError_t getCudaDate(Tensorx<T>& c) {
   cudaError_t cudaStatus;
   // Check for any errors launching the kernel
   cudaStatus = cudaGetLastError();
   if (cudaStatus != cudaSuccess) {
-    fprintf(stderr, "addKernel launch failed: %s\n", cudaGetErrorString(cudaStatus));
+    fprintf(stderr, "kernel launch failed: %s\n", cudaGetErrorString(cudaStatus));
     throw cudaStatus;
   }
 
   // Copy output vector from GPU buffer to host memory.
-  cudaStatus = cudaMemcpy(c.data(), dev_c, c.size() * sizeof(T), cudaMemcpyDeviceToHost);
+  cudaStatus = cudaMemcpy(c.data(), c.datax(), c.size() * sizeof(T), cudaMemcpyDeviceToHost);
   if (cudaStatus != cudaSuccess) {
     fprintf(stderr, "cudaMemcpy failed!");
+    throw cudaStatus;
+  }
+
+  // cudaDeviceSynchronize waits for the kernel to finish, and returns
+  // any errors encountered during the launch.
+  cudaStatus = cudaDeviceSynchronize();
+  if (cudaStatus != cudaSuccess) {
+    fprintf(stderr, "cudaDeviceSynchronize returned error code %d after launching addKernel!\n", cudaStatus);
     throw cudaStatus;
   }
   return cudaStatus;

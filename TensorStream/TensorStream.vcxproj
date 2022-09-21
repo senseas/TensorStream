@@ -18,7 +18,7 @@
     <ClInclude Include="core\TensorFunction.h" />
     <ClInclude Include="core\TensorOperator.h" />
     <ClInclude Include="cuda\CudaUtil.h" />
-    <ClInclude Include="cuda\functionx.h" />
+    <ClInclude Include="cuda\Function.h" />
     <ClInclude Include="cuda\Tensorx.h" />
     <ClInclude Include="framework\TensorExecutor.h" />
     <ClInclude Include="framework\TensorFlow.h" />
@@ -42,11 +42,12 @@
     <ClInclude Include="operators\SquareFunction.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NNTest.cpp" />
+    <CudaCompile Include="cuda\Cuda.cu" />
+    <CudaCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="cuda\cudax.cu" />
-    <CudaCompile Include="main.cpp" />
+    <ClCompile Include="TestCuda.cpp" />
+    <ClCompile Include="TestNN.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{390FACBF-3A06-4ECD-85CA-1F666AA0D35F}</ProjectGuid>

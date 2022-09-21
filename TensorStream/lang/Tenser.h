@@ -28,13 +28,13 @@ public:
     sz = this->next * dim[0];
   }
 
-  Tenser(const Tenser& tenser) {
+  Tenser(Tenser<T>& tenser) {
     data = tenser.getData();
     next = tenser.getNext();
     sz = tenser.size();
   }
 
-  Tenser operator=(const Tenser& tenser) {
+  Tenser operator=(Tenser<T>& tenser) {
     data = tenser.getData();
     next = tenser.getNext();
     sz = tenser.size();

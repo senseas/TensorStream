@@ -12,11 +12,11 @@ template<typename T>
 __global__ void sigmoidKernel(T* inx, T* out) {
   int i = threadIdx.x;
   out[i] = 1 / (1 + exp(inx[i]));
-  printf("%f\n", out[0]);
+  //printf("%f\n", out[0]);
 }
 
 template<typename T>
-__global__ void matmulKernel(T* c, T* a, T* b, unsigned int h, unsigned int w, unsigned int n) {
+__global__ void matmulKernel(T* c, T* a, T* b, int h, int w, int n) {
   int idx = blockDim.x * blockIdx.x + threadIdx.x;
   int idy = blockDim.y * blockIdx.y + threadIdx.y;
 
