@@ -92,8 +92,19 @@ namespace Objects {
     return found != std::string::npos;
   }
 
+  template <typename T>
   bool isTenser(Object& tensor) {
-    return tensor.type() == typeid(Tenser<None*>*);
+    return tensor.type() == typeid(Tenser<T*>*);
+  }
+
+  template <typename T>
+  bool eqTenser(Object& a, Object& b) {
+    return a.get<Tenser<T*>*>() == b.get<Tenser<T*>*>();
+  }
+
+  template <typename T>
+  bool neqTenser(Object& a, Object& b) {
+    return a.get<Tenser<T*>*>() != b.get<Tenser<T*>*>();
   }
 
   vector<int> shapes(Tenser<Object*>* arr) {

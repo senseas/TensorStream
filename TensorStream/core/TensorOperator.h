@@ -16,6 +16,20 @@ public:
 
   vector<Tensor*> getInput() { return input; }
 
+  Tenser<None*>* createOutput(vector<int> shape) {
+    if (this->getOutput().isNull()) {
+      TensorFlux::createOutput(this, shape);
+    }
+    return output.get<Tenser<None*>*>();
+  }
+
+  None* createOutput() {
+    if (this->getOutput().isNull()) {
+      TensorFlux::createOutput(this, shape);
+    }
+    return output.get<None*>();
+  }
+
   void forward() {
     for (Tensor* o : getInput()) {
       TensorFlux::computer(o);

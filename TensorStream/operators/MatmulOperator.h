@@ -11,7 +11,7 @@ public:
   Object compute() {
     Tenser<None*>* A = getInput<Tenser<None*>*>(0);
     Tenser<None*>* B = getInput<Tenser<None*>*>(1);
-    Tenser<None*>* C = zeroNones({A->shape[0], B->shape[1]});
+    Tenser<None*>* C = createOutput({A->shape[0], B->shape[1]});
 
     forEach(A->shape[0], B->shape[1], A->shape[1],
     [A, B, C](int i, int l, int j) {
