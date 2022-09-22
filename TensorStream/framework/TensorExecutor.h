@@ -46,11 +46,11 @@ public:
 
   void setInput(Tenser<double>* o) {
     Tenser<None*>* a = input->getOutput().get<Tenser<None*>*>();
-    farEach(a, o, [](None** m, double* n) { (*m)->setValue(*n); });
+    forEach(a, o, [](None* m, double n) { m->setValue(n); });
   }
 
   void setLabel(Tenser<double>* o) {
     Tenser<None*>* a = label->getOutput().get<Tenser<None*>*>();
-    farEach(a, o, [](None** m, double* n) { (*m)->setValue(*n); });
+    forEach(a, o, [](None* m, double n) { m->setValue(n); });
   }
 };

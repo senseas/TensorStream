@@ -74,9 +74,9 @@ void NNTest() {
     if (i % 100 == 0) {
       None* loss = tensor34->getOutput<None*>();
       Tenser<None*>* out = tensor33->getOutput<Tenser<None*>*>();
-      farEach(inSet, [](double* n) { std::cout << *n << std::endl; });
-      farEach(labSet, [](double* n) { std::cout << *n << std::endl; });
-      farEach(out, [](None** a) { std::cout << (*a)->getValue() << std::endl; });
+      forEach(inSet, [](double n) { std::cout << n << std::endl; });
+      forEach(labSet, [](double n) { std::cout << n << std::endl; });
+      forEach(out, [](None* a) { std::cout << a->getValue() << std::endl; });
       std::cout << "-----------------" << std::endl;
     }
     delete inSet;
