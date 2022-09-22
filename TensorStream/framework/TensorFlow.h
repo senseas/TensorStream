@@ -148,7 +148,7 @@ namespace Flow {
   // }
 
   // Tensor* softmax(Tensor* a, Tensor* b) {
-  //   return new SoftmaNFunction(a, b);
+  //   return new SoftmaxFunction(a, b);
   // }
 
   // Tensor* selfAttention(Tensor* a, Tensor* b) {
