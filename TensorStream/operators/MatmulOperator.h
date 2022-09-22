@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 #include "../lang/Include.h"
 #include "../cuda/Function.h"
 
@@ -24,10 +25,11 @@ public:
     });
     */
 
-    Tensorx<double> A = getInput(0), B = getInput(1);
-    createOutput({A.shape(0), B.shape(1)});
-    Tensorx<double> C(this);
-    matmul(C, A, B, A.shape(0), B.shape(1), A.shape(1));
+    Tensorx<double> DA = getInput(0), DB = getInput(1);
+    createOutput({DA.shape(0), DB.shape(1)});
+    Tensorx<double> DC(this);
+    matmul(DA, DB, DC, DA.shape(0), DB.shape(1), DA.shape(1));
+
     return output;
   }
 

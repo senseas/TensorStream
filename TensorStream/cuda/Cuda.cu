@@ -16,16 +16,16 @@ __global__ void sigmoidKernel(T* inx, T* out) {
 }
 
 template<typename T>
-__global__ void matmulKernel(T* c, T* a, T* b, int h, int w, int n) {
+__global__ void matmulKernel(T* a, T* b, T* c, int h, int w, int n) {
   int idx = blockDim.x * blockIdx.x + threadIdx.x;
   int idy = blockDim.y * blockIdx.y + threadIdx.y;
 
   //printf("x={%i}\n", idx);
-  //printf("y={%i}\n", idx);
+  //printf("y={%i}\n", idy);
 
   T sum = 0;
-  for (size_t i = 0; i < w; i++){
-	sum += a[idy * w + i] * b[i * n + idx];
+  for (size_t i = 0; i < n; i++) {
+    sum += a[idx * n + i] * b[i * w + idy];
   }
 
   c[idy * n + idx] = sum;

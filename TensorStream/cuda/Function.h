@@ -22,8 +22,8 @@ void sigmoid(Tensorx<T>& a, Tensorx<T>& b) {
 
 // Helper function for using CUDA to add vectors in parallel.
 template<typename T>
-void matmul(Tensorx<T>& c, Tensorx<T>& a, Tensorx<T>& b, int h, int w, int n) {
+void matmul(Tensorx<T>& a, Tensorx<T>& b, Tensorx<T>& c, int h, int w, int n) {
   // Launch a kernel on the GPU with one thread for each element.
-  matmulKernel << <h, w >> > (c.datax(), a.datax(), b.datax(), h, w, n);
+  matmulKernel << <h, w >> > (a.datax(), b.datax(), c.datax(), h, w, n);
   getCudaDate(c);
 }
