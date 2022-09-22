@@ -7,8 +7,8 @@ template<typename T>
 class Tensorx {
 private:
   size_t size_;
-  vector<int> shape;
-  T* data_, * datax_;
+  vector<int> shape_;
+  T* data_ = nullptr, * datax_ = nullptr;
 
 public:
   Tensorx(vector<T> data) {
@@ -30,14 +30,25 @@ public:
     this->datax_ = setCudaData(*this);
   }
 
-  Tensorx(T* data, T* datax, size_t size) {
-    this->size_ = size;
-    this->data_ = data;
-    this->datax_ = datax;
+  Tensorx(Tensor* a) {
+    this->size_ = a->size();
+    this->shape_ = a->shape;
+    this->data_ = a->value;
+    this->datax_ = a->valuex;
+    this->datax_ = setCudaData(*this);
+    a->valuex = this->datax_;
   }
 
   size_t size() {
     return size_;
+  }
+
+  vector<int>& shape() {
+    return shape_;
+  }
+
+  int shape(int i) {
+    return shape_[i];
   }
 
   T* data() {
@@ -47,4 +58,5 @@ public:
   T* datax() {
     return datax_;
   }
+
 };

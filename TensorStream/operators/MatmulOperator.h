@@ -24,15 +24,10 @@ public:
     });
     */
 
-    Tensor* A = getInput()[0]->cuda();
-    Tensor* B = getInput()[1]->cuda();
-    createOutput({A->shape[0], B->shape[1]});
-    Tensor* C = this->cuda();
-
-    Tensorx<double> da(A->value, A->valuex, Objects::shapeSize(A->shape) );
-    Tensorx<double> db(B->value, B->valuex, Objects::shapeSize(B->shape));
-    Tensorx<double> dc(C->value, C->valuex, Objects::shapeSize(C->shape));
-    matmul(dc, da, db, A->shape[0], B->shape[1], A->shape[1]);
+    Tensorx<double> A = getInput(0), B = getInput(1);
+    createOutput({A.shape(0), B.shape(1)});
+    Tensorx<double> C(this);
+    matmul(C, A, B, A.shape(0), B.shape(1), A.shape(1));
     return output;
   }
 

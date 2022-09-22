@@ -14,7 +14,9 @@ public:
     return input->getOutput().get<M>();
   }
 
-  vector<Tensor*> getInput() { return input; }
+  vector<Tensor*>& getInput() { return input; }
+
+  Tensor* getInput(int i) { return input[i]; }
 
   Tenser<None*>* createOutput(vector<int> shape) {
     if (this->getOutput().isNull()) {

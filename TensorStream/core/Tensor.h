@@ -5,7 +5,6 @@
 #include "../lang/Object.h"
 #include "../lang/Tenser.h"
 #include "../core/None.h"
-#include "../cuda/Tensorx.h"
 
 using namespace std;
 class Tensor;
@@ -131,14 +130,8 @@ public:
     return function;
   }
 
-  Tensor* cuda() {
-    if (valuex != nullptr) return this;
-    size_t size = Objects::shapeSize(shape);
-    Tensorx<double> val(value, size);
-    valuex = val.datax();
-    Tensorx<double> gra(grad, size);
-    gradx = gra.datax();
-    return this;
+  int size() {
+    return Objects::shapeSize(shape);
   }
 
 };

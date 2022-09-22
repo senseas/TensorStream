@@ -46,24 +46,26 @@ cudaError_t cudaReset() {
 
 template<typename T>
 T* setCudaData(Tensorx<T>& a) {
-  T* dev_a = 0;
+  T* dev_a = a.datax();
   cudaError_t cudaStatus;
   // Allocate GPU buffers for three vectors (two input, one output)    .
-  cudaStatus = cudaMalloc((void**)&dev_a, a.size() * sizeof(T));
-  if (cudaStatus != cudaSuccess) {
-    fprintf(stderr, "cudaMalloc failed!");
-    goto Error;
+  if (dev_a == nullptr) {
+    cudaStatus = cudaMalloc((void**)&dev_a, a.size() * sizeof(T));
+    if (cudaStatus != cudaSuccess) {
+      fprintf(stderr, "cudaMalloc failed!");
+      cudaFree(dev_a);
+      throw cudaStatus;
+    }
   }
 
   // Copy input vectors from host memory to GPU buffers.
   cudaStatus = cudaMemcpy(dev_a, a.data(), a.size() * sizeof(T), cudaMemcpyHostToDevice);
   if (cudaStatus != cudaSuccess) {
     fprintf(stderr, "cudaMemcpy failed!");
-    goto Error;
+    cudaFree(dev_a);
+    throw cudaStatus;
   }
-  return dev_a;
-Error:
-  cudaFree(dev_a);
+
   return dev_a;
 }
 

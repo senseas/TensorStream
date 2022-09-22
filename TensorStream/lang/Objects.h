@@ -10,7 +10,6 @@
 #include "../lang/ForEach.h"
 #include "../lang/Object.h"
 #include "../lang/Tenser.h"
-
 using namespace std;
 
 namespace Objects {

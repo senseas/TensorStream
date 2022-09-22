@@ -1,7 +1,7 @@
 #pragma once
 #include "../cuda/CudaUtil.h"
 #include "../cuda/Cuda.cu"
-
+#include "../cuda/Tensorx.h"
 using namespace std;
 
 // Helper function for using CUDA to add vectors in parallel.
