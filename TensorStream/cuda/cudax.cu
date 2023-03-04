@@ -24,7 +24,7 @@ __global__ void matmulKernel(T* c, T* a, T* b, unsigned int h, unsigned int w, u
 
   T sum = 0;
   for (size_t i = 0; i < w; i++){
-	sum += a[idy * w + i] * b[i * n + idx];
+	  sum += a[idy * w + i] * b[i * n + idx];
   }
 
   c[idy * n + idx] = sum;

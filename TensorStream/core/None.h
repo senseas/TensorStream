@@ -12,30 +12,26 @@ double normalRandm() {
 }
 
 class None {
-public:
+ public:
   double value = 0, grad = 0;
   bool gradre = true, reduce = false;
 
-  None() {
-	value = normalRandm();
-  }
+  None() { value = normalRandm(); }
 
   None(double value) {
-	this->value = value;
-	this->gradre = true;
+    this->value = value;
+    this->gradre = true;
   }
 
   None(double value, bool isGrad) {
-	this->value = value;
-	this->gradre = isGrad;
+    this->value = value;
+    this->gradre = isGrad;
   }
 
-  void setGrad(double grad) {
-	this->grad += grad;
-  }
+  void setGrad(double grad) { this->grad += grad; }
 
   void reset() {
-	this->reduce = false;
-	this->grad = 0;
+    this->reduce = false;
+    this->grad = 0;
   }
 };

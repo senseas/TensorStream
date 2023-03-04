@@ -80,6 +80,7 @@ class Tensor {
   virtual Object& getOutput() {
     return output;
   }
+  
   virtual Object& getFunction() {
     return function;
   }
