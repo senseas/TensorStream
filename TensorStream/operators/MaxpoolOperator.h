@@ -19,7 +19,7 @@ class MaxpoolOperator : public TensorOperator {
     int height = (A->shape[0] - kernelSize) / heighs + 1;
     int width = (A->shape[1] - kernelSize) / widths + 1;
     Tenser<None*>* B = zeroNones({height, width});
-    forEach(height, width, kernelSize, kernelSize, 
+    forEach(height, width, kernelSize, kernelSize,
 		[A, B, heighs, widths](int y, int x, int m, int n) {
 			None* inx = A->get<None*>(y * heighs + m, x * widths + n);
 			None* out = B->get<None*>(y, x);
@@ -32,7 +32,7 @@ class MaxpoolOperator : public TensorOperator {
     Tenser<None*>* A = setPadding(getInput<Tenser<None*>*>(0), padding);
     Tenser<None*>* B = getOutput<Tenser<None*>*>();
     int heighs = stride[0], widths = stride[1];
-    forEach(B->shape[1], B->shape[0], kernelSize, kernelSize, 
+    forEach(B->shape[1], B->shape[0], kernelSize, kernelSize,
 		[A, B, heighs, widths](int y, int x, int m, int n) {
 			None* inx = A->get<None*>(y * heighs + m, x * widths + n);
 			None* out = B->get<None*>(y, x);
