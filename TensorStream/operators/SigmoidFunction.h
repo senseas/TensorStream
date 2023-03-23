@@ -23,8 +23,8 @@ public:
   SigmoidxFunction(Tensor* a) : TensorFunction("sigmoidx", {a}) {};
 
   Object compute() {
-    Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);
-    Tenser<Tensor*>* B = zeroTensors(A->shape);
+    shared_ptr<Tenser<Tensor*>> A = getInput<shared_ptr<Tenser<Tensor*>>>(0);
+    shared_ptr<Tenser<Tensor*>> B = zeroTensors(A->shape);
     farEach(A, B, [](Tensor** a, Tensor** b) { *b = new SigmoidFunction(*a); });
     return B;
   }

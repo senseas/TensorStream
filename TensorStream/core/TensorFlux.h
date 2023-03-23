@@ -1,12 +1,15 @@
 #pragma once
 
+#include <memory>
+
+#include "../core/None.h"
+#include "../core/Tensor.h"
 #include "../lang/ForEach.h"
 #include "../lang/Objects.h"
 #include "../lang/Tenser.h"
-#include "../core/None.h"
-#include "../core/Tensor.h"
 
 using namespace ForEach;
+using namespace std;
 
 namespace TensorFlux {
 
@@ -14,16 +17,14 @@ namespace TensorFlux {
 
   Object getOutput(Object& o) {
     if (Objects::isTenser<Tensor>(o)) {
-      Tenser<Tensor*>* a = o.get<Tenser<Tensor*>*>();
-      Tenser<Object*> b(a->shape);
-      farEach(a, &b, [](Tensor** m, Object** n) { *n = &(*m)->getOutput(); });
-      vector<int> shape = Objects::shapes(&b);
-      Tenser<None*>* c = new Tenser<None*>(shape);
-      farEach(&b, c, [](Object** m, None** n) { *n = (*m)->get<None*>(); });
-      b.clear();
+      shared_ptr<Tenser<Tensor*>> a = make_shared<Tenser<Tensor*>>(o.get<Tenser<Tensor*>*>());
+      shared_ptr<Tenser<Object*>> b = make_shared<Tenser<Object*>>(a->shape);
+      farEach(a, b, [](Tensor** m, Object** n) { *n = &(*m)->getOutput(); });
+      vector<int> shape = Objects::shapes(b);
+      shared_ptr<Tenser<None*>> c = make_shared<Tenser<None*>>(shape);
+      farEach(b, c, [](Object** m, None** n) { *n = (*m)->get<None*>(); });
       return c;
-    }
-    else {
+    } else {
       Tensor* a = o.get<Tensor*>();
       return a->getOutput();
     }
@@ -41,18 +42,17 @@ namespace TensorFlux {
 
   void createOutput(Tensor* tensor) {
     if (tensor->getOutput().isNull()) {
-      tensor->value = new double[1] {0.0};
-      tensor->grad = new double[1] {0.0};
-      tensor->reduce = new bool[1] {false};
+      tensor->value = new double[1]{0.0};
+      tensor->grad = new double[1]{0.0};
+      tensor->reduce = new bool[1]{false};
       tensor->output = zeroNone(tensor, false);
     }
   }
 
   void createOutput(Tensor* tensor, Object& o) {
     if (Objects::isTenser<None>(o)) {
-      createOutput(tensor, o.get<Tenser<None*>*>()->shape);
-    }
-    else {
+      createOutput(tensor, o.get<shared_ptr<Tenser<None*>>>()->shape);
+    } else {
       createOutput(tensor);
     }
   }
@@ -110,27 +110,23 @@ namespace TensorFlux {
         forEach<None*>(outs, nones, [](None* out, None* none) {
           out->setValue(none->getValue());
         });
-      }
-      else {
+      } else {
         forEach<None*>(outs, nones, [](None* out, None* none) {
           out->setValue(none->getValue());
           out->reset();
         });
         if (Objects::isTenser<None>(nones)) {
-          Tenser<None*>* m = nones.get<Tenser<None*>*>();
+          shared_ptr<Tenser<None*>> m = nones.get<shared_ptr<Tenser<None*>>>();
           for (int i = 0; i < m->size(); i++) {
             delete m->getData()[i];
           }
           m->clear();
-          delete m;
-        }
-        else {
+        } else {
           None* m = nones.get<None*>();
           delete m;
         }
       }
-    }
-    else {
+    } else {
       Object nones = tensor->compute();
       tensor->output = nones;
     }
@@ -140,8 +136,7 @@ namespace TensorFlux {
     if (Objects::isNone(tensor)) {
       Object& outs = tensor->getOutput();
       forEach<None*>(outs, [](None* out) { out->reset(); });
-    }
-    else {
+    } else {
       tensor->forward();
     }
   }
@@ -162,23 +157,20 @@ namespace TensorFlux {
           none->setValue(none->getValue() - 0.3 * none->getGrad());
         }
       });
-    }
-    else {
+    } else {
       tensor->reducer();
     }
   }
 
-  template <typename M>
-  M getTensor(Object& o) {
+  Object getTensor(Object& o) {
     if (Objects::isTenser<None>(o)) {
-      Tenser<None*>* a = o.get<Tenser<None*>*>();
-      Tenser<Tensor*>* b = new Tenser<Tensor*>(a->shape);
+      shared_ptr<Tenser<None*>> a = o.get<shared_ptr<Tenser<None*>>>();
+      shared_ptr<Tenser<Tensor*>> b = make_shared<Tenser<Tensor*>>(a->shape);
       farEach(a, b, [](None** c, Tensor** d) { *d = new Tensor(*c); });
-      return (M)b;
-    }
-    else {
+      return b;
+    } else {
       None* a = o.get<None*>();
-      return (M) new Tensor(a);
+      return new Tensor(a);
     }
   }
 

@@ -11,7 +11,7 @@ public:
     if (Objects::isFunction(input)) {
       return (input->getFunction()).get<M>();
     }
-    return TensorFlux::getTensor<M>(input->getOutput());
+    return TensorFlux::getTensor(input->getOutput()).get<M>();
   }
 
   vector<Tensor*> getInput() { return input; }

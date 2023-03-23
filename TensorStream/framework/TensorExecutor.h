@@ -3,6 +3,8 @@
 #include "../lang/ForEach.h"
 #include "../core/Tensor.h"
 #include "../core/None.h"
+#include <memory>
+using namespace std;
 
 using namespace ForEach;
 
@@ -18,7 +20,7 @@ public:
     this->label = label;
   }
 
-  void run(Tenser<double>* input, Tenser<double>* label) {
+  void run(shared_ptr<Tenser<double>> input, shared_ptr<Tenser<double>> label) {
     setInput(input);
     setLabel(label);
     run();
@@ -30,7 +32,7 @@ public:
     tensor->reducer();
   }
 
-  void forward(Tenser<double>* input, Tenser<double>* label) {
+  void forward(shared_ptr <Tenser<double>> input, shared_ptr<Tenser<double>> label) {
     setInput(input);
     setLabel(label);
     tensor->forward();
@@ -44,13 +46,13 @@ public:
 
   void reduce() { tensor->reducer(); }
 
-  void setInput(Tenser<double>* o) {
-    Tenser<None*>* a = input->getOutput().get<Tenser<None*>*>();
+  void setInput(shared_ptr<Tenser<double>> o) {
+    shared_ptr<Tenser<None*>> a = input->getOutput().get<shared_ptr<Tenser<None*>>>();
     forEach(a, o, [](None* m, double n) { m->setValue(n); });
   }
 
-  void setLabel(Tenser<double>* o) {
-    Tenser<None*>* a = label->getOutput().get<Tenser<None*>*>();
-    forEach(a, o, [](None* m, double n) { m->setValue(n); });
+  void setLabel(shared_ptr<Tenser<double>> o) {
+    shared_ptr<Tenser<None*>> a = label->getOutput().get<shared_ptr<Tenser<None*>>>();
+    forEach(a, o , [](None* m, double n) { m->setValue(n); });
   }
 };

@@ -2,10 +2,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
+
 #include "../lang/Object.h"
 #include "../lang/Tenser.h"
 #include "../core/None.h"
-
 using namespace std;
 class Tensor;
 
@@ -26,7 +27,7 @@ namespace Objects {
 
   None* zeroNone(Tensor* tensor, bool isGrad);
 
-  Tenser<None*>* zeroNones(Tensor* tensor, bool isGrad);
+  shared_ptr<Tenser<None*>> zeroNones(Tensor* tensor, bool isGrad);
 };
 
 using namespace Objects;
@@ -113,9 +114,9 @@ public:
   virtual Object compute() { return nullptr; }
   virtual void gradient() {};
 
-  virtual  void forward() {};
-  virtual  void backward() {};
-  virtual  void reducer() {};
+  virtual void forward() {};
+  virtual void backward() {};
+  virtual void reducer() {};
 
   virtual Object& getOutput() {
     return output;

@@ -27,8 +27,8 @@ public:
   ReluxOperator(Tensor* a) : TensorOperator("Relux", {a}) {};
 
   Object compute() {
-    Tenser<None*>* A = getInput<Tenser<None*>*>(0);
-    Tenser<None*>* B = zeroNones(A->shape);
+    shared_ptr<Tenser<None*>> A = getInput<shared_ptr<Tenser<None*>>>(0);
+    shared_ptr<Tenser<None*>> B = zeroNones(A->shape);
     forEach(A, B, [](None* a, None* b) {
       double value = a->getValue();
       b->setValue(value > 0 ? value : 0.1 * value);

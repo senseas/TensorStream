@@ -7,9 +7,9 @@ public:
   ShapeFunction(Tensor* a, Tensor* b) : TensorFunction("Pow", {a, b}) {};
 
   Object compute() {
-    Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);
-    Tenser<Tensor*>* B = getInput<Tenser<Tensor*>*>(1);
-    Tenser<Tensor*>* C = zeroTensors(B->shape);
+    shared_ptr<Tenser<Tensor*>> A = getInput<shared_ptr<Tenser<Tensor*>>>(0);
+    shared_ptr<Tenser<Tensor*>> B = getInput<shared_ptr<Tenser<Tensor*>>>(1);
+    shared_ptr<Tenser<Tensor*>> C = zeroTensors(B->shape);
 
     B->setData(A->getData());
     return C;

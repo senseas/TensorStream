@@ -29,9 +29,9 @@ public:
   AddxOperator(Tensor* a, Tensor* b) : TensorOperator("Addx", {a, b}) {};
 
   Object compute() {
-    Tenser<None*>* B = zeroNones(getInput<Tenser<None*>*>(0)->shape);
+    shared_ptr<Tenser<None*>> B = zeroNones(getInput<shared_ptr<Tenser<None*>>>(0)->shape);
     for (int i = 0; i < getInput().size(); i++) {
-      Tenser<None*>* A = getInput<Tenser<None*>*>(i);
+      shared_ptr<Tenser<None*>> A = getInput<shared_ptr<Tenser<None*>>>(i);
       forEach(A, B, [](None* a, None* b) { b->setValue(b->getValue() + a->getValue()); });
     }
     return B;
@@ -51,14 +51,14 @@ public:
   SumOperator(Tensor* a) : TensorOperator("Sum", {a}) {};
 
   Object compute() {
-    Tenser<None*>* A = getInput<Tenser<None*>*>(0);
+    shared_ptr<Tenser<None*>> A = getInput<shared_ptr<Tenser<None*>>>(0);
     None* b = new None(0.0);
     forEach(A, [b](None* a) { b->setValue(b->getValue() + a->getValue()); });
     return b;
   }
 
   void gradient() {
-    Tenser<None*>* A = getInput<Tenser<None*>*>(0);
+    shared_ptr<Tenser<None*>> A = getInput<shared_ptr<Tenser<None*>>>(0);
     None* b = getOutput<None*>();
     forEach(A, [b](None* a) { a->setGrad(b->getGrad()); });
   }
@@ -186,8 +186,8 @@ public:
   ExpxFunction(Tensor* a) : TensorFunction("Expx", {a}) {};
 
   Object compute() {
-    Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);
-    Tenser<Tensor*>* B = zeroTensors(A->shape);
+    shared_ptr<Tenser<Tensor*>> A = getInput<shared_ptr<Tenser<Tensor*>>>(0);
+    shared_ptr<Tenser<Tensor*>> B = zeroTensors(A->shape);
     farEach(A, B, [](Tensor** a, Tensor** b) { *b = new ExpOperator(*a); });
     return B;
   }

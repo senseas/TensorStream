@@ -19,8 +19,8 @@ public:
   SquarexFunction(Tensor* a, Tensor* b) : TensorFunction("Squarex", {a, b}) {};
 
   Object compute() {
-    Tenser<Tensor*>* A = getInput<Tenser<Tensor*>*>(0);
-    Tenser<Tensor*>* B = getInput<Tenser<Tensor*>*>(1);
+    shared_ptr<Tenser<Tensor*>> A = getInput<shared_ptr<Tenser<Tensor*>>>(0);
+    shared_ptr<Tenser<Tensor*>> B = getInput<shared_ptr<Tenser<Tensor*>>>(1);
     Tensor* C = new TensorConst(0);
     forEach(A, B, [&C](Tensor* a, Tensor* b) {
       C = new AddOperator(C, new SquareFunction(a, b));

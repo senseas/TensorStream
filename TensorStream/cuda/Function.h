@@ -24,6 +24,6 @@ void sigmoid(Tensorx<T>& a, Tensorx<T>& b) {
 template<typename T>
 void matmul(Tensorx<T>& a, Tensorx<T>& b, Tensorx<T>& c, int h, int w, int n) {
   // Launch a kernel on the GPU with one thread for each element.
-  matmulKernel << <h, w >> > (a.datax(), b.datax(), c.datax(), h, w, n);
+  matmulKernel<<<dim3(1, 1), dim3(h,w)>>>(a.datax(), b.datax(), c.datax(), h, w, n);
   getCudaDate(c);
 }

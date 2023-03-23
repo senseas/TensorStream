@@ -10,7 +10,9 @@
 #include "../lang/ForEach.h"
 #include "../lang/Object.h"
 #include "../lang/Tenser.h"
+#include <memory>
 using namespace std;
+
 
 namespace Objects {
 
@@ -54,20 +56,20 @@ namespace Objects {
     return new None(tensor->value, tensor->grad, tensor->reduce, isGrad);
   }
 
-  Tenser<None*>* zeroNones(Tensor* tensor, bool isGrad) {
-    Tenser<None*>* a = new Tenser<None*>(tensor->shape);
+  shared_ptr<Tenser<None*>> zeroNones(Tensor* tensor, bool isGrad) {
+    shared_ptr<Tenser<None*>> a = make_shared<Tenser<None*>>(tensor->shape);
     ForEach::farEachi(a, [tensor, isGrad](None** o, int i) { *o = new None(&tensor->value[i], &tensor->grad[i], &tensor->reduce[i], isGrad); });
     return a;
   }
 
-  Tenser<None*>* zeroNones(vector<int> shape) {
-    Tenser<None*>* a = new Tenser<None*>(shape);
+  shared_ptr<Tenser<None*>> zeroNones(vector<int> shape) {
+    shared_ptr<Tenser<None*>> a = make_shared<Tenser<None*>>(shape);
     ForEach::farEach(a, [](None** o) { *o = new None(0.0, false); });
     return a;
   }
 
-  Tenser<Tensor*>* zeroTensors(vector<int> shape) {
-    Tenser<Tensor*>* a = new Tenser<Tensor*>(shape);
+  shared_ptr<Tenser<Tensor*>> zeroTensors(vector<int> shape) {
+    shared_ptr<Tenser<Tensor*>> a = make_shared<Tenser<Tensor*>>(shape);
     ForEach::farEach(a, [](Tensor** o) { *o = new TensorConst(0); });
     return a;
   }
@@ -93,7 +95,7 @@ namespace Objects {
 
   template <typename T>
   bool isTenser(Object& tensor) {
-    return tensor.type() == typeid(Tenser<T*>*);
+    return tensor.type() == typeid(shared_ptr<Tenser<T*>>);
   }
 
   template <typename T>
@@ -106,15 +108,15 @@ namespace Objects {
     return a.get<Tenser<T*>*>() != b.get<Tenser<T*>*>();
   }
 
-  vector<int> shapes(Tenser<Object*>* arr) {
+  vector<int> shapes(shared_ptr<Tenser<Object*>>& arr) {
     vector<int> list = arr->shape;
     vector<int> shape(arr->shape.size());
-    Object* obj = arr->get<Object*>(shape);
+    Object* obj = arr->get(shape);
     while (obj->nonNull()) {
       if (obj->type() == typeid(Tenser<Object*>*)) {
         Tenser<Object*>* a = obj->get<Tenser<Object*>*>();
         std::copy(a->shape.begin(), a->shape.end(), std::back_inserter(list));
-        obj = a->get<Object*>(0);
+        obj = a->get(0);
       }
       else if (obj->type() == typeid(Tenser<None*>*)) {
         Tenser<None*>* a = obj->get<Tenser<None*>*>();
@@ -137,25 +139,25 @@ namespace Objects {
     Tenser<None*>* nones = new Tenser<None*>({height + 2 * padding, width + 2 * padding});
 
     ForEach::forEach(padding, nones->shape[0], [nones, padding, height](int m, int n) {
-      None* o = nones->get<None*>(m, n);
+      None* o = nones->get(m, n);
       None* p = new None(0.0, false);
 
-      None* e = nones->get<None*>(m + padding + height, n);
+      None* e = nones->get(m + padding + height, n);
       e = new None(0.0, false);
     });
 
     ForEach::forEach(nones->shape[1], padding, [nones, padding, width](int m, int n) {
-      None* e = nones->get<None*>(m, n);
+      None* e = nones->get(m, n);
       e = new None(0.0, false);
 
-      None* p = nones->get<None*>(m, n + padding + width);
+      None* p = nones->get(m, n + padding + width);
       p = new None(0.0, false);
     });
 
     ForEach::forEach(height, width, [a, nones, padding](int i, int l) {
-      None* c = nones->getx<None*>(i + padding, l + padding);
+      None* c = nones->get(i + padding, l + padding);
 
-      c = a->get<None*>(i, l);
+      c = a->get(i, l);
     });
     return nones;
   }

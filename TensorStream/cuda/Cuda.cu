@@ -30,3 +30,26 @@ __global__ void matmulKernel(T* a, T* b, T* c, int h, int w, int n) {
 
   c[idy * n + idx] = sum;
 }
+
+template <typename Func> 
+__global__ void _forEach(size_t N, Func func) {
+  size_t id = blockIdx.x * blockDim.x + threadIdx.x;
+  size_t stride = gridDim.x * blockDim.x;
+  for (size_t i = id; i < N; i += stride) {
+    func(i);
+  }
+}
+
+template <typename Func>
+__global__ void _forEach2(size_t M, size_t N, Func func) {
+  int idx = blockDim.x * blockIdx.x + threadIdx.x;
+  int idy = blockDim.y * blockIdx.y + threadIdx.y;
+
+  size_t stridex = gridDim.x * blockDim.x;
+  size_t stridey = gridDim.y * blockDim.y;
+  for (size_t x = idx; x < M; x += stridex) {
+    for (size_t y = idy; y < N; y += stridey) {
+      func(x, y);
+    }
+  }
+}

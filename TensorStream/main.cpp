@@ -68,19 +68,17 @@ void NNTest() {
 
   forEach(100000000, [inputSet, labelSet, executor, tensor33, tensor34](int i) {
     int l = rand() % (21);
-    Tenser<double>* inSet = inputSet->getx<Tenser<double>*>(l);
-    Tenser<double>* labSet = labelSet->getx<Tenser<double>*>(l);
+    shared_ptr<Tenser<double>> inSet = inputSet->getTenser(l);
+    shared_ptr<Tenser<double>> labSet = labelSet->getTenser(l);
     executor->run(inSet, labSet);
     if (i % 100 == 0) {
       None* loss = tensor34->getOutput<None*>();
-      Tenser<None*>* out = tensor33->getOutput<Tenser<None*>*>();
+      shared_ptr<Tenser<None*>> out = tensor33->getOutput<shared_ptr<Tenser<None*>>>();
       forEach(inSet, [](double n) { std::cout << n << std::endl; });
       forEach(labSet, [](double n) { std::cout << n << std::endl; });
       forEach(out, [](None* a) { std::cout << a->getValue() << std::endl; });
       std::cout << "-----------------" << std::endl;
     }
-    delete inSet;
-    delete labSet;
   });
 }
 

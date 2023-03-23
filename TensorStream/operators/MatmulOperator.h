@@ -40,9 +40,9 @@ public:
 
     forEach(A->shape[0], B->shape[1], A->shape[1],
     [A, B, C](int i, int l, int j) {
-      None* inx = A->get<None*>(i, j);
-      None* iny = B->get<None*>(j, l);
-      None* out = C->get<None*>(i, l);
+      None* inx = A->get(i, j);
+      None* iny = B->get(j, l);
+      None* out = C->get(i, l);
       inx->setGrad(out->getGrad() * iny->getValue());
       iny->setGrad(out->getGrad() * inx->getValue());
     });

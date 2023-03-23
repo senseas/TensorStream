@@ -1,17 +1,18 @@
 #pragma once
 #include "../lang/Object.h"
 #include "../lang/Tenser.h"
-
+#include <memory>
+using namespace std;
 namespace ForEach {
 
-  template <typename Func>
+  template <typename Func> 
   void forEach(int a, Func func) {
     for (int i = 0; i < a; i++) {
       func(i);
     }
   }
 
-  template <typename Func>
+  template <typename Func> 
   void forEach(int a, int b, Func func) {
     for (int i = 0; i < a; i++) {
       for (int l = 0; l < b; l++) {
@@ -20,7 +21,7 @@ namespace ForEach {
     }
   }
 
-  template <class Func>
+  template <class Func> 
   void forEach(int a, int b, int c, Func func) {
     for (int i = 0; i < a; i++) {
       for (int l = 0; l < b; l++) {
@@ -31,7 +32,7 @@ namespace ForEach {
     }
   }
 
-  template <class Func>
+  template <class Func> 
   void forEach(int a, int b, int c, int d, Func func) {
     for (int i = 0; i < a; i++) {
       for (int l = 0; l < b; l++) {
@@ -49,38 +50,53 @@ namespace ForEach {
     return size;
   }
 
-  template <typename M, typename Func>
+  template <typename M, typename Func> 
   void farEachi(Tenser<M>* a, Func func) {
-    M* data = a->getData();
+    M *data = a->getData();
     for (int i = 0; i < a->size(); i++) {
-      M* n = &data[i];
+      M *n = &data[i];
       func(n, i);
     }
   }
 
   template <typename M, typename Func>
+  void farEachi(shared_ptr<Tenser<M>>& a, Func func) {
+    M *data = a->getData();
+    for (int i = 0; i < a->size(); i++) {
+      M *n = &data[i];
+      func(n, i);
+    }
+  }
+
+  template <typename M, typename Func> 
   void farEach(Tenser<M>* a, Func func) {
     for (int i = 0; i < a->size(); i++) {
-      M* n = &a->getData()[i];
+      M *n = &a->getData()[i];
       func(n);
     }
   }
 
   template <typename M, typename Func>
-  void forEach(Tenser<M>* a, Func func) {
+  void farEach(shared_ptr<Tenser<M>>& a, Func func) {
+    for (int i = 0; i < a->size(); i++) {
+      M *n = &a->getData()[i];
+      func(n);
+    }
+  }
+
+  template <typename M, typename Func>
+  void forEach(shared_ptr<Tenser<M>>& a, Func func) {
     for (int i = 0; i < a->size(); i++) {
       M n = a->getData()[i];
       func(n);
     }
   }
 
-  template <typename M, typename Func>
-  void  forEach(Object& a, Func func) {
-    if (a.type() == typeid(Tenser<M>*)) {
-      Tenser<M>* m = a.get<Tenser<M>*>();
+  template <typename M, typename Func> void forEach(Object& a, Func func) {
+    if (a.type() == typeid(shared_ptr<Tenser<M>>)) {
+      shared_ptr<Tenser<M>> m = a.get<shared_ptr<Tenser<M>>>();
       forEach(m, func);
-    }
-    else {
+    } else {
       M m = a.get<M>();
       func(m);
     }
@@ -95,14 +111,22 @@ namespace ForEach {
     }
   }
 
+  template <typename M, typename N, typename Func>
+  void forEach(shared_ptr<Tenser<M>>& a, shared_ptr<Tenser<N>>& b, Func func) {
+    for (int i = 0; i < a->size(); i++) {
+      M m = a->getData()[i];
+      N n = b->getData()[i];
+      func(m, n);
+    }
+  }
+
   template <typename M, typename Func>
   void forEach(Object& a, Object& b, Func func) {
-    if (a.type() == typeid(Tenser<M>*)) {
-      Tenser<M>* m = a.get<Tenser<M>*>();
-      Tenser<M>* n = b.get<Tenser<M>*>();
+    if (a.type() == typeid(shared_ptr<Tenser<M>>)) {
+      shared_ptr<Tenser<M>> m = a.get<shared_ptr<Tenser<M>>>();
+      shared_ptr<Tenser<M>> n = b.get<shared_ptr<Tenser<M>>>();
       forEach(m, n, func);
-    }
-    else {
+    } else {
       M m = a.get<M>();
       M n = b.get<M>();
       func(m, n);
@@ -112,9 +136,18 @@ namespace ForEach {
   template <typename M, typename N, typename Func>
   void farEach(Tenser<M>* a, Tenser<N>* b, Func func) {
     for (int i = 0; i < a->size(); i++) {
-      M* m = &a->getData()[i];
-      N* n = &b->getData()[i];
+      M *m = &a->getData()[i];
+      N *n = &b->getData()[i];
       func(m, n);
     }
   }
-}  // namespace ForEach
+
+  template <typename M, typename N, typename Func>
+  void farEach(shared_ptr<Tenser<M>>& a, shared_ptr<Tenser<N>>& b, Func func) {
+    for (int i = 0; i < a->size(); i++) {
+      M *m = &a->getData()[i];
+      N *n = &b->getData()[i];
+      func(m, n);
+    }
+  }
+} // namespace ForEach
