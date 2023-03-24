@@ -40,6 +40,7 @@
     <ClInclude Include="operators\SoftmaxCrossFunction.h" />
     <ClInclude Include="operators\SoftmaxFunction.h" />
     <ClInclude Include="operators\SquareFunction.h" />
+    <ClInclude Include="TestNN.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="cuda\Cuda.cu" />
@@ -47,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestCuda.cpp" />
-    <ClCompile Include="TestNN.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{390FACBF-3A06-4ECD-85CA-1F666AA0D35F}</ProjectGuid>
@@ -94,7 +94,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;cublas.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
