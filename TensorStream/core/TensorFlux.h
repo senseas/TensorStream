@@ -117,9 +117,6 @@ namespace TensorFlux {
         });
         if (Objects::isTenser<None>(nones)) {
           shared_ptr<Tenser<None*>> m = nones.get<shared_ptr<Tenser<None*>>>();
-          for (int i = 0; i < m->size(); i++) {
-            delete m->getData()[i];
-          }
           m->clear();
         } else {
           None* m = nones.get<None*>();

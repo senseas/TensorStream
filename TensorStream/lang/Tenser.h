@@ -88,7 +88,13 @@ public:
   T* getData() { return this->data; }
   size_t getNext() { return next; }
   size_t size() { return sz; }
-  void clear() { delete[] this->data; }
+
+  void clear() { 
+    for (int i = 0; i < sz; i++) {
+      delete data[i];
+    }
+    delete[] data;
+  }
 
 private:
   Tenser<T> newTenser(int idx) {
