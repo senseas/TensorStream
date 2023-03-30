@@ -5,6 +5,8 @@
 #include "../lang/Tenser.h"
 #include "../core/None.h"
 #include "../core/Tensor.h"
+#include <memory>
+using namespace std;
 
 using namespace ForEach;
 
@@ -20,7 +22,6 @@ namespace TensorFlux {
       vector<int> shape = Objects::shapes(&b);
       Tenser<None*>* c = new Tenser<None*>(shape);
       farEach(&b, c, [](Object** m, None** n) { *n = (*m)->get<None*>(); });
-      b.clear();
       return c;
     }
     else {
@@ -117,12 +118,8 @@ namespace TensorFlux {
           out->reset();
         });
         if (Objects::isTenser<None>(nones)) {
-          Tenser<None*>* m = nones.get<Tenser<None*>*>();
-          for (int i = 0; i < m->size(); i++) {
-            delete m->getData()[i];
-          }
+          shared_ptr<Tenser<None*>> m(nones.get<Tenser<None*>*>());
           m->clear();
-          delete m;
         }
         else {
           None* m = nones.get<None*>();

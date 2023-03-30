@@ -40,70 +40,68 @@ public:
     sz = tenser.size();
   }
 
-  template <typename M, class... N>
-  M get(N... idxn) {
+  template <class... N>
+  T get(N... idxn) {
     std::vector<int> idx = {idxn...};
+    assert(shape.size() == idx.size());
     Tenser<T>* arr = this;
-    if (shape.size() == idx.size()) {
-      int length = idx.size() - 1;
-      for (int i = 0; i < length; i++) {
-        arr = arr->getx(idx[i]);
-      }
-      return (M)arr->getValue(idx[length]);
+    int length = idx.size() - 1;
+    for (int i = 0; i < length; i++) {
+      arr = &arr->newTenser(idx[i]);
     }
-    else {
-      int length = idx.size() - 1;
-      for (int i = 0; i < length; i++) {
-        arr = arr->getx(idx[i]);
-      }
-      return (M)arr->get(idx[length]);
-    }
+    return arr->data[idx[length]];
   }
 
-  template <typename M, class... N>
-  M getx(N... idxn) {
+  template <class... N>
+  T* getx(N... idxn) {
     std::vector<int> idx = {idxn...};
+    assert(shape.size() == idx.size());
     Tenser<T>* arr = this;
-    if (shape.size() == idx.size()) {
-      int length = idx.size() - 1;
-      for (int i = 0; i < length; i++) {
-        arr = arr->getx(idx[i]);
-      }
-      return (M)arr->getValuex(idx[length]);
+    int length = idx.size() - 1;
+    for (int i = 0; i < length; i++) {
+      arr = &arr->newTenser(idx[i]);
     }
-    else {
-      int length = idx.size() - 1;
-      for (int i = 0; i < length; i++) {
-        arr = arr->getx(idx[i]);
-      }
-      return (M)arr->get(idx[length]);
+    return &arr->data[idx[length]];
+  }
+
+  template <class... N>
+  Tenser<T>* getTenser(N... idxn) {
+    std::vector<int> idx = {idxn...};
+    assert(shape.size() > idx.size());
+    Tenser<T>* arr = this;
+    int length = idx.size() - 1;
+    for (int i = 0; i < length; i++) {
+      arr = &arr->newTenser(idx[i]);
     }
+    return arr->newTenserx(idx[length]);
+  }
+
+  void clear() { 
+    for (int i = 0; i < sz; i++) {
+      delete data[i];
+    }
+    delete[] data;
   }
 
   void setData(T* data) { this->data = data; }
   T* getData() { return this->data; }
   size_t getNext() { return next; }
   size_t size() { return sz; }
-  void clear() { delete[] this->data; }
 
 private:
-  Tenser<T>* get(int idx) {
+  Tenser<T>& newTenser(int idx) {
+    assert(idx < static_cast<int>(shape[0]));
+    std::vector<int> dim;
+    std::copy(shape.begin() + 1, shape.end(), std::back_inserter(dim));
+    Tenser<T> result(data + idx * next, dim);
+    return result;
+  }
+
+  Tenser<T>* newTenserx (int idx) {
     assert(idx < static_cast<int>(shape[0]));
     std::vector<int> dim;
     std::copy(shape.begin() + 1, shape.end(), std::back_inserter(dim));
     Tenser<T>* result = new Tenser<T>(data + idx * next, dim);
     return result;
   }
-
-  Tenser<T>* getx(int idx) {
-    assert(idx < static_cast<int>(shape[0]));
-    std::vector<int> dim;
-    std::copy(shape.begin() + 1, shape.end(), std::back_inserter(dim));
-    Tenser<T> result(data + idx * next, dim);
-    return &result;
-  }
-
-  T* getValuex(int idx) { return &data[idx]; }
-
-  T getValue(int idx) { return data[idx]; }
 };

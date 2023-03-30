@@ -68,8 +68,8 @@ void NNTest() {
 
   forEach(100000000, [inputSet, labelSet, executor, tensor33, tensor34](int i) {
     int l = rand() % (21);
-    Tenser<double>* inSet = inputSet->getx<Tenser<double>*>(l);
-    Tenser<double>* labSet = labelSet->getx<Tenser<double>*>(l);
+    Tenser<double>* inSet = inputSet->getTenser(l);
+    Tenser<double>* labSet = labelSet->getTenser(l);
     executor->run(inSet, labSet);
     if (i % 100 == 0) {
       None* loss = tensor34->getOutput<None*>();
