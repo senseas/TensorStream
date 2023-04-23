@@ -20,6 +20,9 @@
     <ClInclude Include="cuda\CudaUtil.h" />
     <ClInclude Include="cuda\Function.h" />
     <ClInclude Include="cuda\Tensorx.h" />
+    <ClInclude Include="flow\Math.h" />
+    <ClInclude Include="flow\Tensor.h" />
+    <ClInclude Include="flow\TensorGrad.h" />
     <ClInclude Include="framework\TensorExecutor.h" />
     <ClInclude Include="framework\TensorFlow.h" />
     <ClInclude Include="lang\ForEach.h" />

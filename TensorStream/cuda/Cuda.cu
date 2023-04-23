@@ -1,5 +1,6 @@
 #pragma once
 #include "device_launch_parameters.h"
+#include <nvfunctional>
 #include <stdio.h>
 
 template <typename T> 
@@ -32,14 +33,14 @@ __global__ void matmulKernel(T *a, T *b, T *c, int h, int w, int n) {
 }
 
 template <typename Func> 
-__global__ void cudaForEach1D(size_t N, Func func) {
+__global__ void cudaForEach(size_t N, Func func) {
   for (size_t i = blockIdx.x * blockDim.x + threadIdx.x; i < (N); i += blockDim.x * gridDim.x) {
     func(i);
   }
 }
 
 template <typename Func>
-__global__ void cudaForEach2D(size_t M, size_t N, Func func) {
+__global__ void cudaForEach(size_t M, size_t N, Func func) {
   for (size_t i = blockIdx.x * blockDim.x + threadIdx.x; i < (M); i += blockDim.x * gridDim.x) {
     for (size_t j = blockIdx.y * blockDim.y + threadIdx.y; j < (N); j += blockDim.y * gridDim.y) {
       func(i, j);
